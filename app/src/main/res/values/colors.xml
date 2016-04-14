@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+
+    <color name="colorBlockDefault">#383834</color>
+    <color name="colorBackgroundDefault">#ffffff</color>
+
+    <!--<string-array name="app">-->
+    <!--<item>#B3DD9C</item>-->
+    <!--<item>#F48CBD</item>-->
+    <!--<item>#9DA1F4</item>-->
+    <!--<item>#C29DF4</item>-->
+    <!--<item>#DDBE9C</item>-->
+    <!--<item>#DD9EAC</item>-->
+    <!--<item>#E98CF4</item>-->
+    <!--<item>#7AD8EF</item>-->
+    <!--<item>#CAE373</item>-->
+    <!--<item>#F49D9D</item>-->
+    <!--</string-array>-->
+    <string-array name="app">
+        <item>#b3dd9c</item>
+        <item>#ef79b1</item>
+        <item>#7b80f8</item>
+        <item>#c29df4</item>
+        <item>#59bbff</item>
+        <item>#ffcc00</item>
+        <item>#e98cf4</item>
+        <item>#7ad8ef</item>
+        <item>#cae373</item>
+        <item>#46d5b8</item>
+    </string-array>
+
+    <color name="color_btn_new_game">#a5de67</color>
+    <color name="color_btn_new_game_tap">#8fce4b</color>
+    <color name="color_btn_best_score">#91cbec</color>
+    <color name="color_btn_best_score_tap">#79bbe1</color>
+    <color name="color_btn_about_me">#a5a8e7</color>
+    <color name="color_btn_about_me_tap">#8f93df</color>
+
+    <color name="color_text_score">#ff9f94</color>
+    <color name="color_text_best">#87ccf3</color>
+
+    <color name="color_text_about_me">#8b8884</color>
+    <color name="color_text_version">#ffc000</color>
+
+
+</resources>
