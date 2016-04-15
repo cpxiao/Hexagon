@@ -9,17 +9,17 @@ import android.support.v4.content.ContextCompat;
  */
 public class HexSingle {
     /**
-     *
+     * 隐藏不可见
      */
     public static final int STATE_HIDE = 0;
 
     /**
-     *
+     * 空白的，可填充
      */
     public static final int STATE_EMPTY = 1;
 
     /**
-     *
+     * 已填充
      */
     public static final int STATE_HAS_COLOR = 2;
 
@@ -27,9 +27,21 @@ public class HexSingle {
      * 待消除
      */
     public static final int STATE_NEED_ELIMINATE = 3;
+
+    /**
+     * 临时的颜色，用于判断当前位置是否可以放置
+     */
+    public static final int STATE_TEMP_COLOR = 4;
+
+    /**
+     * 状态
+     */
     private int mState;
+
+    /**
+     * Color
+     */
     private int mColor;
-    public boolean hasColor;
 
     public HexSingle(Context c) {
         init(c);
@@ -37,8 +49,7 @@ public class HexSingle {
 
     private void init(Context c) {
         mState = STATE_HIDE;
-        mColor = ContextCompat.getColor(c, R.color.colorBlockDefault);
-        hasColor = false;
+        mColor = ContextCompat.getColor(c, R.color.hexColorDefault);
     }
 
     public void setState(int state) {
@@ -53,16 +64,17 @@ public class HexSingle {
         return mState == STATE_HIDE;
     }
 
+    public boolean hasColor() {
+        return mState == STATE_HAS_COLOR;
+    }
 
 
     public void resetColor(Context c) {
+        mColor = ContextCompat.getColor(c, R.color.hexColorDefault);
         mState = STATE_EMPTY;
-        hasColor = false;
-        mColor = ContextCompat.getColor(c, R.color.colorBlockDefault);
     }
 
     public void setColor(int color) {
-        hasColor = true;
         mColor = color;
     }
 

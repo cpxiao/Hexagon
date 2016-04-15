@@ -8,7 +8,7 @@
     <color name="black">#000000</color>
 
 
-    <color name="colorBlockDefault">#383834</color>
+    <color name="hexColorDefault">#eeeeee</color>
     <color name="colorBackgroundDefault">#ffffff</color>
 
     <!--<string-array name="app">-->
@@ -34,6 +34,14 @@
         <item>#7ad8ef</item>
         <item>#cae373</item>
         <item>#46d5b8</item>
+
+        <item>#ff89b5</item>
+        <item>#ffdc89</item>
+        <item>#f5a26f</item>
+        <item>#898cff</item>
+        <item>#71e096</item>
+        <item>#cff381</item>
+
     </string-array>
 
     <color name="color_btn_new_game">#a5de67</color>

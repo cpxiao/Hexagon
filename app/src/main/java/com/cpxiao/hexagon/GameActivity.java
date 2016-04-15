@@ -2,8 +2,10 @@ package com.cpxiao.hexagon;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +26,7 @@ public class GameActivity extends Activity implements onGameListener {
     /**
      * 游戏View
      */
-    private GameView gameView;
+    private GameView mGameView;
 
 
     @Override
@@ -45,23 +47,21 @@ public class GameActivity extends Activity implements onGameListener {
 
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.game_view);
-        gameView = new GameView(GameActivity.this, 5);
-        gameView.setGameListener(this);
+        mGameView = new GameView(GameActivity.this, 6);
+        mGameView.setGameListener(this);
 
-//        gameView.setOnGameListener(this);
-        layout.addView(gameView);
+//        mGameView.setOnGameListener(this);
+        layout.addView(mGameView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -83,6 +83,21 @@ public class GameActivity extends Activity implements onGameListener {
 
     @Override
     public void onGameOver() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Game Over")
+                .setMessage("Message")
+                .setPositiveButton("setPositiveButton", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                    }
+                })
+                .setNegativeButton("setNegativeButton", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 }
