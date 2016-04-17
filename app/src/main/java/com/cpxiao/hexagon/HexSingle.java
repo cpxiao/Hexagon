@@ -43,13 +43,13 @@ public class HexSingle {
      */
     private int mColor;
 
-    public HexSingle(Context c) {
-        init(c);
+    public HexSingle(Context context) {
+        init(context);
     }
 
-    private void init(Context c) {
+    private void init(Context context) {
         mState = STATE_HIDE;
-        mColor = ContextCompat.getColor(c, R.color.hexColorDefault);
+        mColor = ContextCompat.getColor(context, R.color.hexColorDefault);
     }
 
     public void setState(int state) {
@@ -67,7 +67,6 @@ public class HexSingle {
     public boolean hasColor() {
         return mState == STATE_HAS_COLOR;
     }
-
 
     public void resetColor(Context c) {
         mColor = ContextCompat.getColor(c, R.color.hexColorDefault);

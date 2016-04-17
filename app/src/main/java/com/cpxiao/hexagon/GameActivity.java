@@ -10,11 +10,14 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 /**
  * Created by cpxiao on 4/9/16.
  */
 
 public class GameActivity extends Activity implements onGameListener {
+    private static final String TAG = "CPXIAO";
     /**
      * 当前分数
      */
@@ -57,11 +60,13 @@ public class GameActivity extends Activity implements onGameListener {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
@@ -85,14 +90,14 @@ public class GameActivity extends Activity implements onGameListener {
     public void onGameOver() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Game Over")
-                .setMessage("Message")
-                .setPositiveButton("setPositiveButton", new DialogInterface.OnClickListener() {
+                .setMessage("Try Again ?")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 })
-                .setNegativeButton("setNegativeButton", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

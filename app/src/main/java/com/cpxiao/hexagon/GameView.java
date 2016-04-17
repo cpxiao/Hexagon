@@ -5,11 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 
 /**
@@ -17,7 +15,7 @@ import android.widget.Toast;
  * GameView
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-
+    private static final String TAG="CPXIAO";
     /**
      * 游戏类型 3、4、5、6、7...
      */
@@ -201,8 +199,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             int indexY = getIndexY(mEventY, mHexStoreRectF.top, mHexStoreRectF.bottom, mHexStore.mBlockY);
             int indexX = getIndexX(indexY, mEventX, mHexStoreRectF.left, mHexStoreRectF.right, mHexStore.mBlockX);
 
-            Toast.makeText(getContext(), "indexX = " + indexX + ", indexY = " + indexY, Toast.LENGTH_SHORT).show();
-
             if (mHexBaseSelectedIndex != -1) {
                 boolean isCanBePlace = isCanBePlace(indexX, indexY, mHexStore, mHexBase[mHexBaseSelectedIndex]);
                 if (isCanBePlace) {
@@ -217,11 +213,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             mEventDeltaX = 0;
             mEventDeltaY = 0;
         } else if (MotionEvent.ACTION_MOVE == event.getAction()) {
-            Log.d("CPXIAO", "MotionEvent.ACTION_MOVE.........");
             int indexY = getIndexY(mEventY, mHexStoreRectF.top, mHexStoreRectF.bottom, mHexStore.mBlockY);
             int indexX = getIndexX(indexY, mEventX, mHexStoreRectF.left, mHexStoreRectF.right, mHexStore.mBlockX);
-
-            Toast.makeText(getContext(), "indexX = " + indexX + ", indexY = " + indexY, Toast.LENGTH_SHORT).show();
 
             if (mHexBaseSelectedIndex != -1) {
                 boolean isCanBePlace = isCanBePlace(indexX, indexY, mHexStore, mHexBase[mHexBaseSelectedIndex]);
@@ -319,7 +312,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
-        Log.d("CPXIAO", "w = " + w + ", result = " + result);
         return result;
 
 
@@ -486,7 +478,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int hexNumTotal = hexNum0 + hexNum1 + hexNum2;
         mScore += hexNumTotal * (lineTotal + 1);
         mBestScore = Math.max(mScore, mBestScore);
-        Log.d("CPXIAO", "mScore = " + mScore + "mBestScore = " + mBestScore);
         if (mOnGameListener != null) {
             mOnGameListener.onScoreChange(mScore, mBestScore);
         }
@@ -606,7 +597,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * 在Y轴方向增加delY个方块高度
      */
-    private float mDeltaY = 0.05f;
+    private float mDeltaY = 0.08f;
 
     /**
      * 绘制六边形组合图
