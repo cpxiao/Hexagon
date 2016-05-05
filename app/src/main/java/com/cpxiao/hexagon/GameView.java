@@ -9,13 +9,15 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cpxiao.utils.PreferencesUtils;
+
 
 /**
  * Created by cpxiao on 3/28/16.
  * GameView
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    private static final String TAG="CPXIAO";
+    private static final String TAG = "CPXIAO";
     /**
      * 游戏类型 3、4、5、6、7...
      */
@@ -71,6 +73,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void init(Context context, int gameType) {
         mGameType = gameType;
+        mBestScore = PreferencesUtils.getInt(context, ExtraKey.KEY_BEST_SCORE, 0);
         initHexStore(context, gameType);
         initHexBase(context);
 

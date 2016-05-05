@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Hex</string>
+	<string name="ok">确定</string>
+	<string name="cancel">取消</string>
+	<string name="new_game">新游戏</string>
+</resources>
