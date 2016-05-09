@@ -14,6 +14,7 @@ import com.cpxiao.hexagon.ExtraKey;
 import com.cpxiao.hexagon.GameView;
 import com.cpxiao.hexagon.R;
 import com.cpxiao.hexagon.onGameListener;
+import com.cpxiao.utils.MediaPlayerUtils;
 import com.cpxiao.utils.PreferencesUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -41,9 +42,11 @@ public class GameActivity extends Activity implements onGameListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //隐藏状态栏部分（电池电量、时间等部分）
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
                 .LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_game);
 
 
@@ -61,6 +64,8 @@ public class GameActivity extends Activity implements onGameListener {
 
 //        mGameView.setOnGameListener(this);
         layout.addView(mGameView);
+
+
     }
 
     @Override
@@ -78,6 +83,7 @@ public class GameActivity extends Activity implements onGameListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MediaPlayerUtils.getInstance().stop();
     }
 
     private void saveBestScore(int score) {

@@ -65,7 +65,7 @@ public class HexSingle {
     }
 
     public boolean hasColor() {
-        return mState == STATE_HAS_COLOR;
+        return mState == STATE_HAS_COLOR || mState == STATE_NEED_ELIMINATE;
     }
 
     public void resetColor(Context c) {

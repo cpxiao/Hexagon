@@ -9,7 +9,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cpxiao.utils.MediaPlayerUtils;
 import com.cpxiao.utils.PreferencesUtils;
+import com.cpxiao.utils.SoundPoolUtils;
+
+import java.util.HashMap;
 
 
 /**
@@ -71,6 +75,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         init(context, gameType);
     }
 
+    private static final int SOUND_POOL_CLEAR = 0;
+
     private void init(Context context, int gameType) {
         mGameType = gameType;
         mBestScore = PreferencesUtils.getInt(context, ExtraKey.KEY_BEST_SCORE, 0);
@@ -84,6 +90,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL);
+
+        MediaPlayerUtils.getInstance().init(context, R.raw.hexagon_bg_sound);
+        MediaPlayerUtils.getInstance().start();
+
+
+        SoundPoolUtils.getInstance().createSoundPool(20);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(SOUND_POOL_CLEAR, R.raw.clear);
+        SoundPoolUtils.getInstance().loadSound(context, map);
     }
 
 
@@ -362,8 +377,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     private void logic() {
         /**判断"横"行*/
-        int line0 = 0;
-        int hexNum0 = 0;
+        int clearLine0 = 0;
+        int clearHexNum0 = 0;
         for (int y = 0; y < mHexStore.mBlockY; y++) {
             boolean isFull = true;
             int showNumber = 0;
@@ -379,8 +394,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             //该行有值且已填满,将此行数据状态设为待消除
             if (isFull && showNumber > 0) {
-                line0++;
-                hexNum0 += showNumber;
+                clearLine0++;
+                clearHexNum0 += showNumber;
                 for (int x = 0; x < mHexStore.mBlockX; x++) {
                     if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
                         if (mHexStore.mHexagonBlocks[y][x].hasColor()) {
@@ -393,8 +408,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         /**判断"/"行*/
-        int line1 = 0;
-        int hexNum1 = 0;
+        int clearLine1 = 0;
+        int clearHexNum1 = 0;
         for (int i = 0; i < mHexStore.mBlockX + mHexStore.mBlockY - 1; i++) {
             boolean isFull = true;
             int showNumber = 0;
@@ -413,8 +428,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
             if (isFull && showNumber > 0) {
-                line1++;
-                hexNum1 += showNumber;
+                clearLine1++;
+                clearHexNum1 += showNumber;
                 for (int y = 0; y < mHexStore.mBlockY; y++) {
                     int x = i - y;
                     if (x < 0 || x >= mHexStore.mBlockX) {
@@ -430,8 +445,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         /**判断"\"行*/
-        int line2 = 0;
-        int hexNum2 = 0;
+        int clearLine2 = 0;
+        int clearHexNum2 = 0;
         for (int i = 0; i < mHexStore.mBlockX + mHexStore.mBlockY - 1; i++) {
             boolean isFull = true;
             int showNumber = 0;
@@ -450,8 +465,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
             if (isFull && showNumber > 0) {
-                line2++;
-                hexNum2 += showNumber;
+                clearLine2++;
+                clearHexNum2 += showNumber;
                 for (int y = 0; y < mHexStore.mBlockY; y++) {
                     int x = mHexStore.mBlockX - (i - y);
                     if (x < 0 || x >= mHexStore.mBlockX) {
@@ -467,7 +482,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-        /**消除*/
+        /**消除数据*/
         for (int y = 0; y < mHexStore.mBlockY; y++) {
             for (int x = 0; x < mHexStore.mBlockX; x++) {
                 if (mHexStore.mHexagonBlocks[y][x].getState() == HexSingle.STATE_NEED_ELIMINATE) {
@@ -477,9 +492,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         /**计算此次得分*/
-        int lineTotal = line0 + line1 + line2;
-        int hexNumTotal = hexNum0 + hexNum1 + hexNum2;
-        mScore += hexNumTotal * (lineTotal + 1);
+        int clearLineTotal = clearLine0 + clearLine1 + clearLine2;
+        for (int i = 0; i < clearLineTotal; i++) {
+            SoundPoolUtils.getInstance().play(SOUND_POOL_CLEAR);
+        }
+        int clearHexNumTotal = clearHexNum0 + clearHexNum1 + clearHexNum2;
+        mScore += clearHexNumTotal * (clearLineTotal + 1);
         mBestScore = Math.max(mScore, mBestScore);
         if (mOnGameListener != null) {
             mOnGameListener.onScoreChange(mScore, mBestScore);
