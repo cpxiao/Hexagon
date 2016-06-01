@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cpxiao.commonlibrary.ads.YouMiAds;
 import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.hexagon.ExtraKey;
@@ -24,111 +25,112 @@ import com.umeng.analytics.MobclickAgent;
  */
 
 public class GameActivity extends Activity implements OnGameListener {
-    private static final String TAG = "CPXIAO";
-    /**
-     * 当前分数
-     */
-    private TextView mScoreView;
-    /**
-     * 最高分
-     */
-    private TextView mBestView;
-    /**
-     * 游戏View
-     */
-    private GameView mGameView;
+	private static final String TAG = "CPXIAO";
+	/**
+	 * 当前分数
+	 */
+	private TextView mScoreView;
+	/**
+	 * 最高分
+	 */
+	private TextView mBestView;
+	/**
+	 * 游戏View
+	 */
+	private GameView mGameView;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
 
-        //隐藏状态栏部分（电池电量、时间等部分）
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
-                .LayoutParams.FLAG_FULLSCREEN);
+		//隐藏状态栏部分（电池电量、时间等部分）
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
+				.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_game);
-
-
-        mScoreView = (TextView) findViewById(R.id.score);
-        mScoreView.setText(String.valueOf(0));
-
-        mBestView = (TextView) findViewById(R.id.best);
-        mBestView.setText(String.valueOf(PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0)));
+		setContentView(R.layout.activity_game);
 
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.game_view);
-        int gameType = getIntent().getIntExtra(ExtraKey.GAME_TYPE, 5);
-        mGameView = new GameView(GameActivity.this, gameType);
-        mGameView.setGameListener(this);
+		mScoreView = (TextView) findViewById(R.id.score);
+		mScoreView.setText(String.valueOf(0));
+
+		mBestView = (TextView) findViewById(R.id.best);
+		mBestView.setText(String.valueOf(PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0)));
+
+
+		LinearLayout layout = (LinearLayout) findViewById(R.id.game_view);
+		int gameType = getIntent().getIntExtra(ExtraKey.GAME_TYPE, 5);
+		mGameView = new GameView(GameActivity.this, gameType);
+		mGameView.setGameListener(this);
 
 //        mGameView.setOnGameListener(this);
-        layout.addView(mGameView);
+		layout.addView(mGameView);
 
+		YouMiAds.onCreate(this);
 
-    }
+	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MediaPlayerUtils.getInstance().stop();
-    }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		MediaPlayerUtils.getInstance().stop();
+	}
 
-    private void saveBestScore(int score) {
-        int bestScore = PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0);
-        bestScore = Math.max(score, bestScore);
-        PreferencesUtils.putInt(this, ExtraKey.KEY_BEST_SCORE, bestScore);
-    }
+	private void saveBestScore(int score) {
+		int bestScore = PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0);
+		bestScore = Math.max(score, bestScore);
+		PreferencesUtils.putInt(this, ExtraKey.KEY_BEST_SCORE, bestScore);
+	}
 
-    public static void come2me(Context context, int gameType) {
-        Intent intent = new Intent(context, GameActivity.class);
-        intent.putExtra(ExtraKey.GAME_TYPE, gameType);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-    }
+	public static void come2me(Context context, int gameType) {
+		Intent intent = new Intent(context, GameActivity.class);
+		intent.putExtra(ExtraKey.GAME_TYPE, gameType);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		context.startActivity(intent);
+	}
 
-    @Override
-    public void onScoreChange(int score, int bestScore) {
-        mScoreView.setText(String.valueOf(score));
-        mBestView.setText(String.valueOf(bestScore));
+	@Override
+	public void onScoreChange(int score, int bestScore) {
+		mScoreView.setText(String.valueOf(score));
+		mBestView.setText(String.valueOf(bestScore));
 
-        if (score >= bestScore) {
-            saveBestScore(score);
-        }
-    }
+		if (score >= bestScore) {
+			saveBestScore(score);
+		}
+	}
 
-    @Override
-    public void onGameOver() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.game_over))
-                .setMessage(getString(R.string.try_again))
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        GameActivity.come2me(GameActivity.this, 5);
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .create();
-        dialog.show();
-    }
+	@Override
+	public void onGameOver() {
+		AlertDialog dialog = new AlertDialog.Builder(this)
+				.setTitle(getString(R.string.game_over))
+				.setMessage(getString(R.string.try_again))
+				.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						GameActivity.come2me(GameActivity.this, 5);
+					}
+				})
+				.setNegativeButton(getString(R.string.cancel), new DialogInterface
+						.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				})
+				.create();
+		dialog.show();
+	}
 }

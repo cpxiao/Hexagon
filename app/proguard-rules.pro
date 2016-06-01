@@ -15,3 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+#有米广告混淆过滤
+-dontwarn net.youmi.android.**
+-keep class net.youmi.android.** {
+    *;
+}
