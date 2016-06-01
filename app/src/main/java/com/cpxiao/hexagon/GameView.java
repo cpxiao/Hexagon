@@ -9,9 +9,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.cpxiao.utils.MediaPlayerUtils;
-import com.cpxiao.utils.PreferencesUtils;
-import com.cpxiao.utils.SoundPoolUtils;
+import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
+import com.cpxiao.commonlibrary.utils.PreferencesUtils;
+import com.cpxiao.commonlibrary.utils.SoundPoolUtils;
 
 import java.util.HashMap;
 
@@ -181,9 +181,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
-    private onGameListener mOnGameListener;
+    private OnGameListener mOnGameListener;
 
-    public void setGameListener(onGameListener listener) {
+    public void setGameListener(OnGameListener listener) {
         mOnGameListener = listener;
     }
 

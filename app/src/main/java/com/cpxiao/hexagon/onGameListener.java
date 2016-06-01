@@ -2,8 +2,9 @@ package com.cpxiao.hexagon;
 
 /**
  * Created by cpxiao on 4/10/16.
+ * OnGameListener
  */
-public interface onGameListener {
+public interface OnGameListener {
     /**
      * 统计分数
      */

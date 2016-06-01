@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.hexagon.ExtraKey;
 import com.cpxiao.hexagon.R;
-import com.cpxiao.utils.PreferencesUtils;
 
+/**
+ * HomeActivity
+ */
 public class HomeActivity extends Activity implements View.OnClickListener {
 
     @Override

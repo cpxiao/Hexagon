@@ -10,19 +10,20 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
+import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.hexagon.ExtraKey;
 import com.cpxiao.hexagon.GameView;
 import com.cpxiao.hexagon.R;
-import com.cpxiao.hexagon.onGameListener;
-import com.cpxiao.utils.MediaPlayerUtils;
-import com.cpxiao.utils.PreferencesUtils;
+import com.cpxiao.hexagon.OnGameListener;
 import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by cpxiao on 4/9/16.
+ * GameActivity
  */
 
-public class GameActivity extends Activity implements onGameListener {
+public class GameActivity extends Activity implements OnGameListener {
     private static final String TAG = "CPXIAO";
     /**
      * 当前分数

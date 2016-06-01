@@ -2,6 +2,7 @@ package com.cpxiao.hexagon;
 
 /**
  * Created by cpxiao on 5/5/16.
+ * ExtraKey
  */
 public class ExtraKey {
     public static final String GAME_TYPE = "GAME_TYPE";
