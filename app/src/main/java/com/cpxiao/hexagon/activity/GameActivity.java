@@ -1,12 +1,10 @@
 package com.cpxiao.hexagon.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,16 +13,15 @@ import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.hexagon.ExtraKey;
 import com.cpxiao.hexagon.GameView;
-import com.cpxiao.hexagon.R;
 import com.cpxiao.hexagon.OnGameListener;
-import com.umeng.analytics.MobclickAgent;
+import com.cpxiao.hexagon.R;
 
 /**
  * Created by cpxiao on 4/9/16.
  * GameActivity
  */
 
-public class GameActivity extends Activity implements OnGameListener {
+public class GameActivity extends BaseActivity implements OnGameListener {
 	private static final String TAG = "CPXIAO";
 	/**
 	 * 当前分数
@@ -45,10 +42,6 @@ public class GameActivity extends Activity implements OnGameListener {
 		super.onCreate(savedInstanceState);
 
 
-		//隐藏状态栏部分（电池电量、时间等部分）
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
-				.LayoutParams.FLAG_FULLSCREEN);
-
 		setContentView(R.layout.activity_game);
 
 
@@ -60,7 +53,7 @@ public class GameActivity extends Activity implements OnGameListener {
 
 
 		LinearLayout layout = (LinearLayout) findViewById(R.id.game_view);
-		int gameType = getIntent().getIntExtra(ExtraKey.GAME_TYPE, 5);
+		int gameType = getIntent().getIntExtra(ExtraKey.INTENT_EXTRA_GAME_TYPE, 5);
 		mGameView = new GameView(GameActivity.this, gameType);
 		mGameView.setGameListener(this);
 
@@ -74,13 +67,13 @@ public class GameActivity extends Activity implements OnGameListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onResume(this);
+		MediaPlayerUtils.getInstance().start();
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
-		MobclickAgent.onPause(this);
+		MediaPlayerUtils.getInstance().pause();
 	}
 
 	@Override
@@ -97,7 +90,7 @@ public class GameActivity extends Activity implements OnGameListener {
 
 	public static void come2me(Context context, int gameType) {
 		Intent intent = new Intent(context, GameActivity.class);
-		intent.putExtra(ExtraKey.GAME_TYPE, gameType);
+		intent.putExtra(ExtraKey.INTENT_EXTRA_GAME_TYPE, gameType);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		context.startActivity(intent);
 	}
@@ -131,6 +124,8 @@ public class GameActivity extends Activity implements OnGameListener {
 					}
 				})
 				.create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.setCancelable(false);
 		dialog.show();
 	}
 }
