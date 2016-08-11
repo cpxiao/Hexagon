@@ -1,11 +1,5 @@
 include ':app'
 
-
-//include ':Utils'
-//project (':Utils').projectDir = new File('../Utils/')
-//include ':Utils:commonliibrary'
-
-
 include ':Utils'
-project (':Utils').projectDir = new File('../Utils/')
+project(':Utils').projectDir = new File('../Utils/')
 include ':Utils:commonlibrary'

@@ -12,28 +12,33 @@ import com.umeng.analytics.MobclickAgent;
  * BaseActivity
  */
 public class BaseActivity extends Activity {
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		//no title
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //no title
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		//隐藏状态栏部分（电池电量、时间等部分）
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
-				.LayoutParams.FLAG_FULLSCREEN);
+        //隐藏状态栏部分（电池电量、时间等部分）
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager
+                .LayoutParams.FLAG_FULLSCREEN);
 
+    }
 
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		MobclickAgent.onPause(this);
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

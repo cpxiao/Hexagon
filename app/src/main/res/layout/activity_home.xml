@@ -1,101 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	android:id="@+id/content_main"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:layout_gravity="center"
-	android:gravity="center"
-	android:background="@mipmap/hexagon_bg"
-	android:orientation="vertical"
-	android:padding="10dp">
+    android:id="@+id/content_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/hexagon_bg"
+    android:gravity="center"
+    android:orientation="vertical">
 
-	<Button
-		android:id="@+id/btn_continue"
-		android:layout_width="@dimen/btn_width"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/common_4dp"
-		android:background="@drawable/btn_new_game"
-		android:padding="@dimen/common_4dp"
-		android:text="@string/menu_continue"
-		android:textColor="@color/white"
-		android:textSize="@dimen/home_text_size_big"
-		android:textStyle="bold"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-	<Button
-		android:id="@+id/btn_new_game"
-		android:layout_width="@dimen/btn_width"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/common_4dp"
-		android:background="@drawable/btn_new_game"
-		android:padding="@dimen/common_4dp"
-		android:text="@string/menu_new_game"
-		android:textColor="@color/white"
-		android:textSize="@dimen/home_text_size_big"
-		android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_4dp"
+            android:background="@drawable/btn_new_game"
+            android:padding="@dimen/common_4dp"
+            android:text="@string/menu_continue"
+            android:textColor="@color/white"
+            android:textSize="@dimen/home_text_size_big"
+            android:textStyle="bold"/>
 
-	<Button
-		android:id="@+id/btn_best_score"
-		android:layout_width="@dimen/btn_width"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/common_4dp"
-		android:background="@drawable/btn_new_game"
-		android:padding="@dimen/common_4dp"
-		android:text="@string/menu_best_score"
-		android:textColor="@color/white"
-		android:textSize="@dimen/home_text_size_big"
-		android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btn_new_game"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_4dp"
+            android:background="@drawable/btn_new_game"
+            android:padding="@dimen/common_4dp"
+            android:text="@string/menu_new_game"
+            android:textColor="@color/white"
+            android:textSize="@dimen/home_text_size_big"
+            android:textStyle="bold"/>
 
-
-	<Button
-		android:id="@+id/btn_options"
-		android:layout_width="@dimen/btn_width"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/common_4dp"
-		android:background="@drawable/btn_new_game"
-		android:padding="@dimen/common_4dp"
-		android:text="@string/menu_options"
-		android:textColor="@color/white"
-		android:textSize="@dimen/home_text_size_big"
-		android:textStyle="bold"/>
-
-	<Button
-		android:id="@+id/btn_help"
-		android:layout_width="@dimen/btn_width"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/common_4dp"
-		android:background="@drawable/btn_new_game"
-		android:padding="@dimen/common_4dp"
-		android:text="@string/menu_help"
-		android:textColor="@color/white"
-		android:textSize="@dimen/home_text_size_big"
-		android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btn_best_score"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_4dp"
+            android:background="@drawable/btn_new_game"
+            android:padding="@dimen/common_4dp"
+            android:text="@string/menu_best_score"
+            android:textColor="@color/white"
+            android:textSize="@dimen/home_text_size_big"
+            android:textStyle="bold"/>
 
 
-	<Button
-		android:id="@+id/btn_more_games"
-		android:layout_width="@dimen/btn_width"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/common_4dp"
-		android:background="@drawable/btn_new_game"
-		android:padding="@dimen/common_4dp"
-		android:text="@string/menu_more_games"
-		android:textColor="@color/white"
-		android:textSize="@dimen/home_text_size_big"
-		android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btn_options"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_4dp"
+            android:background="@drawable/btn_new_game"
+            android:padding="@dimen/common_4dp"
+            android:text="@string/menu_options"
+            android:textColor="@color/white"
+            android:textSize="@dimen/home_text_size_big"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_help"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_4dp"
+            android:background="@drawable/btn_new_game"
+            android:padding="@dimen/common_4dp"
+            android:text="@string/menu_help"
+            android:textColor="@color/white"
+            android:textSize="@dimen/home_text_size_big"
+            android:textStyle="bold"/>
 
 
-	<Button
-		android:id="@+id/btn_quit"
-		android:layout_width="@dimen/btn_width"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/common_4dp"
-		android:background="@drawable/btn_new_game"
-		android:padding="@dimen/common_4dp"
-		android:text="@string/menu_quit"
-		android:textColor="@color/white"
-		android:textSize="@dimen/home_text_size_big"
-		android:textStyle="bold"/>
+        <Button
+            android:id="@+id/btn_more_games"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_4dp"
+            android:background="@drawable/btn_new_game"
+            android:padding="@dimen/common_4dp"
+            android:text="@string/menu_more_games"
+            android:textColor="@color/white"
+            android:textSize="@dimen/home_text_size_big"
+            android:textStyle="bold"/>
 
+
+        <Button
+            android:id="@+id/btn_quit"
+            android:layout_width="@dimen/btn_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_4dp"
+            android:background="@drawable/btn_new_game"
+            android:padding="@dimen/common_4dp"
+            android:text="@string/menu_quit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/home_text_size_big"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activityLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
 </LinearLayout>

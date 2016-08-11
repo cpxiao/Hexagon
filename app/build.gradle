@@ -2,73 +2,78 @@ apply plugin: 'com.android.application'
 
 //获取时间戳
 def getDate() {
-	def date = new Date()
-	def formattedDate = date.format('yyyyMMddHHmm')
-	return formattedDate
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
 }
 
 android {
-	compileSdkVersion 23
-	buildToolsVersion "23.0.3"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
-	defaultConfig {
-		applicationId "com.cpxiao.hexagon"
-		minSdkVersion 9
-		targetSdkVersion 23
-		versionCode 238
-		versionName "2.3.8"
-	}
-	buildTypes {
-		release {
-			minifyEnabled true//混淆
-			shrinkResources true // 移除无用的resource文件
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-		}
-	}
+    defaultConfig {
+        applicationId "com.cpxiao.hexagon"
+        minSdkVersion 9
+        targetSdkVersion 23
+        versionCode 238
+        versionName "2.3.8"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true//混淆
+            shrinkResources true // 移除无用的resource文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 
-	productFlavors {
-		googleplay {}
-		anzhi {}
-		youmi {}
-		wandoujia {}
-	}
+    productFlavors {
+        googleplay {}
+        anzhi {}
+        youmi {}
+        wandoujia {}
+        gp_fb {}
+    }
 
-	productFlavors.all {
-		flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
-	}
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
 
-	//修改生成的apk名字
-	applicationVariants.all { variant ->
-		variant.outputs.each { output ->
-			def oldFile = output.outputFile
-			def packageName = applicationId;
-			if (variant.buildType.name.equals('release')) {
-				def releaseApkName = packageName +
-						"_v" + defaultConfig.versionName +
-						"_" + variant.productFlavors[0].name +
-						"_" + getDate() + '.apk'
-				output.outputFile = new File(oldFile.parent, releaseApkName)
-			}
-			if (variant.buildType.name.equals('beta')) {
-				def baseApkName = packageName +
-						"_v" + defaultConfig.versionName + "beta" +
-						"_" + variant.productFlavors[0].name +
-						"_" + getDate() + '.apk'
-				output.outputFile = new File(oldFile.parent, baseApkName)
-			}
-			if (variant.buildType.name.equals('debug')) {
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            def packageName = applicationId;
+            if (variant.buildType.name.equals('release')) {
+                def releaseApkName = packageName +
+                        "_v" + defaultConfig.versionName +
+                        "_" + variant.productFlavors[0].name +
+                        "_" + getDate() + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+            if (variant.buildType.name.equals('beta')) {
+                def baseApkName = packageName +
+                        "_v" + defaultConfig.versionName + "beta" +
+                        "_" + variant.productFlavors[0].name +
+                        "_" + getDate() + '.apk'
+                output.outputFile = new File(oldFile.parent, baseApkName)
+            }
+            if (variant.buildType.name.equals('debug')) {
 
-			}
-		}
-	}
+            }
+        }
+    }
 }
 
 
 dependencies {
-//    compile fileTree(dir: 'libs', include: ['*.jar'])
-	testCompile 'junit:junit:4.12'
-	compile 'com.android.support:appcompat-v7:23.2.1'
-	compile 'com.umeng.analytics:analytics:latest.integration'
+    //    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile project(':Utils:commonlibrary')
 
-	compile project(':Utils:commonlibrary')
+//	compile files('libs/keymobad.jar')
+//	compile 'com.google.android.gms:play-services:7.5.0'
+
+    compile files('libs/AudienceNetwork_v4.7.jar')
 }
