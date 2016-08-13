@@ -15,8 +15,8 @@ android {
         applicationId "com.cpxiao.hexagon"
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 238
-        versionName "2.3.8"
+        versionCode 240
+        versionName "2.4.0"
     }
     buildTypes {
         release {
@@ -28,10 +28,12 @@ android {
 
     productFlavors {
         googleplay {}
-        anzhi {}
-        youmi {}
-        wandoujia {}
         gp_fb {}
+        anzhi {}
+        anzhi_fb {}
+        _360_fb {}
+        wandoujia {}
+
     }
 
     productFlavors.all {
@@ -71,9 +73,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile project(':Utils:commonlibrary')
-
-//	compile files('libs/keymobad.jar')
-//	compile 'com.google.android.gms:play-services:7.5.0'
 
     compile files('libs/AudienceNetwork_v4.7.jar')
 }

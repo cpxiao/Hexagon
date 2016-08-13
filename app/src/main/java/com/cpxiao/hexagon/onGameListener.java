@@ -17,8 +17,8 @@ public interface OnGameListener {
     void onGameOver();
 
 
-	/**
-	 * 暂停，用于
-	 */
+    /**
+     * 暂停，用于
+     */
     void onPause();
 }

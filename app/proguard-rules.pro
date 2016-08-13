@@ -16,9 +16,3 @@
 #   public *;
 #}
 
-
-#有米广告混淆过滤
--dontwarn net.youmi.android.**
--keep class net.youmi.android.** {
-    *;
-}
