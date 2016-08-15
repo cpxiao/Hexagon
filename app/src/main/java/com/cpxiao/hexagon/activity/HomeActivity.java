@@ -3,28 +3,17 @@ package com.cpxiao.hexagon.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
-import com.cpxiao.commonlibrary.utils.LogUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.hexagon.ExtraKey;
 import com.cpxiao.hexagon.R;
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
 
 /**
  * HomeActivity
  */
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = LogUtils.TAG + HomeActivity.class.getSimpleName();
-
-    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,30 +22,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         initWidget();
 
-        // Instantiate an AdView view
-        mAdView = new AdView(this, "299750750363934_299751287030547", AdSize.BANNER_HEIGHT_50);
-        // Find the main layout of your activity
-        LinearLayout layout = (LinearLayout) findViewById(R.id.activityLayout);
-        // Add the ad view to your activity layout
-        layout.addView(mAdView);
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                Log.d(TAG, "onError: " + adError.getErrorCode() + "," + adError.getErrorMessage());
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                Log.d(TAG, "onAdLoaded: ");
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                Log.d(TAG, "onAdClicked: ");
-            }
-        });
-        // Request to load an ad
-        mAdView.loadAd();
+        initAds("299750750363934_299751287030547");
     }
 
     private void initWidget() {
@@ -88,7 +54,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onDestroy() {
-        mAdView.destroy();
         super.onDestroy();
     }
 
