@@ -54,6 +54,8 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
         layout.addView(mGameView);
 
+        MediaPlayerUtils.getInstance().init(this, R.raw.hexagon_bgm);
+
         initAds("299750750363934_299751660363843");
     }
 

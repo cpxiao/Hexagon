@@ -37,9 +37,9 @@ public class BaseActivity extends Activity {
 
     }
 
-    protected void initAds(String YOUR_PLACEMENT_ID) {
+    protected void initAds(String placementId) {
         // Instantiate an AdView view
-        adView = new AdView(this, YOUR_PLACEMENT_ID, AdSize.BANNER_HEIGHT_50);
+        adView = new AdView(this, placementId, AdSize.BANNER_HEIGHT_50);
 
         // Find the main layout of your activity
         LinearLayout layout = (LinearLayout) findViewById(R.id.ads_layout);
@@ -83,6 +83,9 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
         super.onDestroy();
     }
 }

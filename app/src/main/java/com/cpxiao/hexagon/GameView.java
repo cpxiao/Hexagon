@@ -10,7 +10,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.cpxiao.commonlibrary.utils.LogUtils;
-import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.commonlibrary.utils.SoundPoolUtils;
 
@@ -92,8 +91,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL);
 
-        MediaPlayerUtils.getInstance().init(context, R.raw.hexagon_bg_sound);
-        MediaPlayerUtils.getInstance().start();
+//        MediaPlayerUtils.getInstance().init(context, R.raw.hexagon_bg_sound);
+//        MediaPlayerUtils.getInstance().start();
 
 
         SoundPoolUtils.getInstance().createSoundPool(20);
