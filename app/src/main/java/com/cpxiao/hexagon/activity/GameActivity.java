@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +13,8 @@ import com.cpxiao.hexagon.ExtraKey;
 import com.cpxiao.hexagon.GameView;
 import com.cpxiao.hexagon.OnGameListener;
 import com.cpxiao.hexagon.R;
+import com.cpxiao.minigamelib.activity.BaseActivity;
+import com.cpxiao.minigamelib.views.DialogUtils;
 
 /**
  * Created by cpxiao on 4/9/16.
@@ -102,25 +103,18 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
     @Override
     public void onGameOver() {
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.game_over))
-                .setMessage(getString(R.string.try_again))
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        GameActivity.come2me(GameActivity.this, 5);
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel), new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
-        dialog.show();
+
+        DialogUtils.createGameOverDialog(this, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                GameActivity.come2me(GameActivity.this, 5);
+            }
+        }, new DialogInterface
+                .OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
     }
 }
