@@ -6,10 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
@@ -17,7 +13,7 @@ import com.cpxiao.hexagon.GameView;
 import com.cpxiao.hexagon.R;
 import com.cpxiao.minigamelib.ExtraKey;
 import com.cpxiao.minigamelib.OnGameListener;
-import com.cpxiao.minigamelib.activity.BaseActivity;
+import com.cpxiao.minigamelib.activity.CommonGameActivity;
 import com.cpxiao.minigamelib.views.DialogUtils;
 
 /**
@@ -25,62 +21,41 @@ import com.cpxiao.minigamelib.views.DialogUtils;
  * GameActivity
  */
 
-public class GameActivity extends BaseActivity implements OnGameListener {
-    private static final String TAG = GameActivity.class.getSimpleName();
-    /**
-     * 当前分数
-     */
-    private TextView mScoreView;
-    /**
-     * 最高分
-     */
-    private TextView mBestScoreView;
-    /**
-     * 游戏View
-     */
-    private GameView mGameView;
-
-    /**
-     * 设置
-     */
-    private ImageView mSettingBtn;
+public class GameActivity extends CommonGameActivity implements OnGameListener {
+    private int mGameType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_common_game);
-
-        mScoreView = (TextView) findViewById(R.id.score);
-        mScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_score));
-        mScoreView.setText(String.valueOf(0));
-
-        TextView labelBestScore = (TextView) findViewById(R.id.best_score_label);
-        labelBestScore.setTextColor(ContextCompat.getColor(this, R.color.color_text_best));
-
-        mBestScoreView = (TextView) findViewById(R.id.best_score);
-        mBestScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_best));
-        mBestScoreView.setText(String.valueOf(PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0)));
-
-        findViewById(R.id.layout_life_bar).setVisibility(View.GONE);
-
-        mSettingBtn = (ImageView) findViewById(R.id.btn_settings);
-        mSettingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(GameActivity.this, "click settings button", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.game_view);
-        int gameType = getIntent().getIntExtra(ExtraKey.INTENT_EXTRA_GAME_TYPE, 5);
-        mGameView = new GameView(GameActivity.this, gameType);
-        mGameView.setGameListener(this);
-
-        layout.addView(mGameView);
 
         MediaPlayerUtils.getInstance().init(this, R.raw.hexagon_bgm);
 
+        initWidget();
         initSmallAds("299750750363934_299751660363843");
+    }
+
+    @Override
+    protected void initWidget() {
+        super.initWidget();
+        mScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_score));
+        setScore(0);
+
+        mBestScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_best));
+        mBestScore = PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0);
+        setBestScore(mBestScore);
+
+        mLifeBar.setVisibility(View.GONE);
+
+        mSettingBtn.setVisibility(View.GONE);
+
+        /**
+         *创建游戏View
+         */
+        mGameType = getIntent().getIntExtra(ExtraKey.INTENT_EXTRA_GAME_TYPE, 5);
+        GameView gameView = new GameView(GameActivity.this, mGameType);
+        gameView.setGameListener(this);
+
+        mGameViewLayout.addView(gameView);
     }
 
     @Override
@@ -101,11 +76,6 @@ public class GameActivity extends BaseActivity implements OnGameListener {
         MediaPlayerUtils.getInstance().stop();
     }
 
-    private void saveBestScore(int score) {
-        int bestScore = PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0);
-        bestScore = Math.max(score, bestScore);
-        PreferencesUtils.putInt(this, ExtraKey.KEY_BEST_SCORE, bestScore);
-    }
 
     public static void come2me(Context context, int gameType) {
         Intent intent = new Intent(context, GameActivity.class);
@@ -115,13 +85,13 @@ public class GameActivity extends BaseActivity implements OnGameListener {
     }
 
     @Override
-    public void onScoreChange(int score, int bestScore) {
-        mScoreView.setText(String.valueOf(score));
-        mBestScoreView.setText(String.valueOf(bestScore));
-
-        if (score >= bestScore) {
-            saveBestScore(score);
+    public void onScoreChange(int score) {
+        setScore(score);
+        if (score > mBestScore) {
+            mBestScore = score;
+            PreferencesUtils.putInt(this, ExtraKey.KEY_BEST_SCORE, mBestScore);
         }
+        setBestScore(mBestScore);
     }
 
     @Override
@@ -130,7 +100,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        GameActivity.come2me(GameActivity.this, 5);
+                        GameActivity.come2me(GameActivity.this, mGameType);
                     }
                 },
                 new DialogInterface.OnClickListener() {
@@ -139,5 +109,10 @@ public class GameActivity extends BaseActivity implements OnGameListener {
                         finish();
                     }
                 });
+    }
+
+    @Override
+    public void onSuccess() {
+
     }
 }

@@ -2,6 +2,7 @@ package com.cpxiao.hexagon.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -27,6 +28,9 @@ public class HomeActivity extends CommonHomeActivity implements View.OnClickList
     @Override
     protected void initWidget() {
         super.initWidget();
+        setButtonsTextColor(Color.WHITE);
+        setButtonsBg(R.drawable.btn_hexagon);
+
         mLayout.setBackgroundResource(R.drawable.hexagon_bg);
 
         mContinueButton.setVisibility(View.GONE);
@@ -51,8 +55,7 @@ public class HomeActivity extends CommonHomeActivity implements View.OnClickList
         } else if (id == R.id.btn_best_score) {
             AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
                     .setTitle(R.string.btn_best_score)
-                    .setMessage(String.valueOf(PreferencesUtils.getInt(this, ExtraKey
-                            .KEY_BEST_SCORE, 0)))
+                    .setMessage(String.valueOf(PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0)))
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

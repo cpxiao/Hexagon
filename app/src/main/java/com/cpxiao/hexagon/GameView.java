@@ -9,10 +9,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.cpxiao.commonlibrary.utils.LogUtils;
-import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.commonlibrary.utils.SoundPoolUtils;
-import com.cpxiao.minigamelib.ExtraKey;
 import com.cpxiao.minigamelib.OnGameListener;
 
 import java.util.HashMap;
@@ -23,17 +20,16 @@ import java.util.HashMap;
  * GameView
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    private static final String TAG = LogUtils.TAG + GameView.class.getSimpleName();
+    private static final String TAG = GameView.class.getSimpleName();
     /**
      * 游戏类型 3、4、5、6、7...
      */
     private int mGameType;
 
     /**
-     * 分数、最高分
+     * 分数
      */
     private int mScore = 0;
-    private int mBestScore = 0;
 
     /**
      * 游戏中心区域
@@ -81,7 +77,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void init(Context context, int gameType) {
         mGameType = gameType;
-        mBestScore = PreferencesUtils.getInt(context, ExtraKey.KEY_BEST_SCORE, 0);
         initHexStore(context, gameType);
         initHexBase(context);
 
@@ -500,9 +495,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         int clearHexNumTotal = clearHexNum0 + clearHexNum1 + clearHexNum2;
         mScore += clearHexNumTotal * (clearLineTotal + 1);
-        mBestScore = Math.max(mScore, mBestScore);
         if (mOnGameListener != null) {
-            mOnGameListener.onScoreChange(mScore, mBestScore);
+            mOnGameListener.onScoreChange(mScore);
         }
     }
 
