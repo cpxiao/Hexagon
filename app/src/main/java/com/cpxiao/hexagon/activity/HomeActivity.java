@@ -23,7 +23,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         initWidget();
 
-        initAds("299750750363934_299751287030547");
+        initSmallAds("299750750363934_299751287030547");
     }
 
     private void initWidget() {

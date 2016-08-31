@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
@@ -30,11 +34,16 @@ public class GameActivity extends BaseActivity implements OnGameListener {
     /**
      * 最高分
      */
-    private TextView mBestView;
+    private TextView mBestScoreView;
     /**
      * 游戏View
      */
     private GameView mGameView;
+
+    /**
+     * 设置
+     */
+    private ImageView mSettingBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +51,25 @@ public class GameActivity extends BaseActivity implements OnGameListener {
         setContentView(R.layout.activity_game);
 
         mScoreView = (TextView) findViewById(R.id.score);
+        mScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_score));
         mScoreView.setText(String.valueOf(0));
 
-        mBestView = (TextView) findViewById(R.id.best);
-        mBestView.setText(String.valueOf(PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0)));
+        TextView labelBestScore = (TextView) findViewById(R.id.best_score_label);
+        labelBestScore.setTextColor(ContextCompat.getColor(this, R.color.color_text_best));
 
+        mBestScoreView = (TextView) findViewById(R.id.best_score);
+        mBestScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_best));
+        mBestScoreView.setText(String.valueOf(PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0)));
+
+        findViewById(R.id.layout_life_bar).setVisibility(View.GONE);
+
+        mSettingBtn = (ImageView) findViewById(R.id.btn_settings);
+        mSettingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(GameActivity.this, "click settings button", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.game_view);
         int gameType = getIntent().getIntExtra(ExtraKey.INTENT_EXTRA_GAME_TYPE, 5);
@@ -57,7 +80,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
         MediaPlayerUtils.getInstance().init(this, R.raw.hexagon_bgm);
 
-        initAds("299750750363934_299751660363843");
+        initSmallAds("299750750363934_299751660363843");
     }
 
     @Override
@@ -94,7 +117,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
     @Override
     public void onScoreChange(int score, int bestScore) {
         mScoreView.setText(String.valueOf(score));
-        mBestView.setText(String.valueOf(bestScore));
+        mBestScoreView.setText(String.valueOf(bestScore));
 
         if (score >= bestScore) {
             saveBestScore(score);
@@ -103,18 +126,18 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
     @Override
     public void onGameOver() {
-
-        DialogUtils.createGameOverDialog(this, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                GameActivity.come2me(GameActivity.this, 5);
-            }
-        }, new DialogInterface
-                .OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
+        DialogUtils.createGameOverDialog(this,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        GameActivity.come2me(GameActivity.this, 5);
+                    }
+                },
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
     }
 }
