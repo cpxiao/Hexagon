@@ -50,8 +50,7 @@
 
     <!--<color name="color_btn_new_game">#a5de67</color>-->
     <!--<color name="color_btn_new_game_tap">#8fce4b</color>-->
-    <color name="color_btn_new_game">#f8c8bf</color>
-    <color name="color_btn_new_game_tap">#f9d9cf</color>
+
     <color name="color_btn_best_score">#91cbec</color>
     <color name="color_btn_best_score_tap">#79bbe1</color>
     <color name="color_btn_about_me">#a5a8e7</color>

@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
-import com.cpxiao.hexagon.ExtraKey;
 import com.cpxiao.hexagon.GameView;
-import com.cpxiao.hexagon.OnGameListener;
 import com.cpxiao.hexagon.R;
+import com.cpxiao.minigamelib.ExtraKey;
+import com.cpxiao.minigamelib.OnGameListener;
 import com.cpxiao.minigamelib.activity.BaseActivity;
 import com.cpxiao.minigamelib.views.DialogUtils;
 
@@ -48,7 +48,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_common_game);
 
         mScoreView = (TextView) findViewById(R.id.score);
         mScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_score));

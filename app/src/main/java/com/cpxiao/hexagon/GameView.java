@@ -12,6 +12,8 @@ import android.view.SurfaceView;
 import com.cpxiao.commonlibrary.utils.LogUtils;
 import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.commonlibrary.utils.SoundPoolUtils;
+import com.cpxiao.minigamelib.ExtraKey;
+import com.cpxiao.minigamelib.OnGameListener;
 
 import java.util.HashMap;
 
