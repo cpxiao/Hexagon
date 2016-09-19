@@ -240,9 +240,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
-
-        isGameOver();
+        /**
+         * 先逻辑判断，再判断是否game over，防止可以消除但提示game over。
+         */
         logic();
+        isGameOver();
 
         myDraw();
         return true;

@@ -33,17 +33,13 @@ public class HomeActivity extends CommonHomeActivity implements View.OnClickList
 
         mLayout.setBackgroundResource(R.drawable.hexagon_bg);
 
-        mContinueButton.setVisibility(View.GONE);
-
+        mNewGameButton.setVisibility(View.VISIBLE);
         mNewGameButton.setOnClickListener(this);
 
+        mBestScoreButton.setVisibility(View.VISIBLE);
         mBestScoreButton.setOnClickListener(this);
 
-        mSettingsButton.setVisibility(View.GONE);
-        mHelpButton.setVisibility(View.GONE);
-        mMoreGamesButton.setVisibility(View.GONE);
-        mAboutMeButton.setVisibility(View.GONE);
-
+        mQuitButton.setVisibility(View.VISIBLE);
         mQuitButton.setOnClickListener(this);
     }
 
