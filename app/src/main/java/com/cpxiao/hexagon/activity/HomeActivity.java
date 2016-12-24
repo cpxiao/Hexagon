@@ -1,65 +1,69 @@
 package com.cpxiao.hexagon.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
-import com.cpxiao.commonlibrary.utils.PreferencesUtils;
 import com.cpxiao.hexagon.R;
-import com.cpxiao.minigamelib.ExtraKey;
-import com.cpxiao.minigamelib.activity.CommonHomeActivity;
+import com.cpxiao.hexagon.mode.GameMode;
+import com.cpxiao.hexagon.views.BestScoreDialog;
+import com.cpxiao.lib.activity.BaseActivity;
 
 /**
  * HomeActivity
+ *
+ * @author cpxiao on 2016/5/5.
  */
-public class HomeActivity extends CommonHomeActivity implements View.OnClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener {
+
+    protected Button mNewGameR5Button;
+    protected Button mNewGameR6Button;
+    protected Button mNewGameR7Button;
+    protected Button mBestScoreButton;
+    protected Button mQuitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
 
         initWidget();
-        initSmallAds("299750750363934_299751287030547");
+        initFbAds50("299750750363934_299751287030547");
 
     }
 
-    @Override
     protected void initWidget() {
-        super.initWidget();
-        setButtonsTextColor(Color.WHITE);
-        setButtonsBg(R.drawable.btn_hexagon);
 
-        mLayout.setBackgroundResource(R.drawable.hexagon_bg);
+        mNewGameR5Button = (Button) findViewById(R.id.btn_r5);
+        mNewGameR6Button = (Button) findViewById(R.id.btn_r6);
+        mNewGameR7Button = (Button) findViewById(R.id.btn_r7);
+        mBestScoreButton = (Button) findViewById(R.id.btn_best_score);
+        mQuitButton = (Button) findViewById(R.id.btn_quit);
 
-        mNewGameButton.setVisibility(View.VISIBLE);
-        mNewGameButton.setOnClickListener(this);
-
-        mBestScoreButton.setVisibility(View.VISIBLE);
+        mNewGameR5Button.setOnClickListener(this);
+        mNewGameR6Button.setOnClickListener(this);
+        mNewGameR7Button.setOnClickListener(this);
         mBestScoreButton.setOnClickListener(this);
-
-        mQuitButton.setVisibility(View.VISIBLE);
         mQuitButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btn_new_game) {
-            GameActivity.come2me(HomeActivity.this, 5);
+        if (id == R.id.btn_r5) {
+            startActivity(GameActivity.makeIntent(HomeActivity.this, GameMode.MODE_R_5));
+        } else if (id == R.id.btn_r6) {
+            startActivity(GameActivity.makeIntent(HomeActivity.this, GameMode.MODE_R_6));
+        } else if (id == R.id.btn_r7) {
+            startActivity(GameActivity.makeIntent(HomeActivity.this, GameMode.MODE_R_7));
         } else if (id == R.id.btn_best_score) {
-            AlertDialog dialog = new AlertDialog.Builder(HomeActivity.this)
-                    .setTitle(R.string.btn_best_score)
-                    .setMessage(String.valueOf(PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0)))
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .create();
-            dialog.setCanceledOnTouchOutside(false);
-//            dialog.setCancelable(false);
+            final BestScoreDialog dialog = new BestScoreDialog(HomeActivity.this);
+            dialog.setButtonOK(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
             dialog.show();
         } else if (id == R.id.btn_quit) {
             finish();

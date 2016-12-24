@@ -1,4 +1,4 @@
-package com.cpxiao.hexagon;
+package com.cpxiao.hexagon.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,15 +9,20 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.cpxiao.commonlibrary.utils.SoundPoolUtils;
-import com.cpxiao.minigamelib.OnGameListener;
+import com.cpxiao.androidutils.library.utils.SoundPoolUtils;
+import com.cpxiao.hexagon.mode.HexStore;
+import com.cpxiao.hexagon.imps.OnGameListener;
+import com.cpxiao.hexagon.R;
+import com.cpxiao.hexagon.mode.HexBase;
+import com.cpxiao.hexagon.mode.HexSingle;
 
 import java.util.HashMap;
 
 
 /**
- * Created by cpxiao on 3/28/16.
  * GameView
+ *
+ * @author cpxiao on 2016/3/28.
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = GameView.class.getSimpleName();
@@ -88,8 +93,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL);
 
-//        MediaPlayerUtils.getInstance().init(context, R.raw.hexagon_bg_sound);
-//        MediaPlayerUtils.getInstance().start();
+        //        MediaPlayerUtils.getInstance().init(context, R.raw.hexagon_bg_sound);
+        //        MediaPlayerUtils.getInstance().start();
 
 
         SoundPoolUtils.getInstance().createSoundPool(20);

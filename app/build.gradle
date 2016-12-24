@@ -1,12 +1,5 @@
 apply plugin: 'com.android.application'
 
-//获取时间戳
-def getDate() {
-    def date = new Date()
-    def formattedDate = date.format('yyyyMMddHHmm')
-    return formattedDate
-}
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -15,8 +8,8 @@ android {
         applicationId "com.cpxiao.hexagon"
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 241
-        versionName "2.4.1"
+        versionCode 242
+        versionName "2.4.2"
     }
     buildTypes {
         release {
@@ -27,17 +20,11 @@ android {
     }
 
     productFlavors {
-        googleplay {}
-        gp_fb {}
-        anzhi {}
-        anzhi_fb {}
-        _360_fb {}
-        wandoujia {}
-
+        gp {}
     }
 
     productFlavors.all {
-        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+//        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 
     //修改生成的apk名字
@@ -49,14 +36,16 @@ android {
                 def releaseApkName = packageName +
                         "_v" + defaultConfig.versionName +
                         "_" + variant.productFlavors[0].name +
-                        "_" + getDate() + '.apk'
+                        "_" +  new Date().format('yyyyMMddHHmm') +
+                        '.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('beta')) {
                 def baseApkName = packageName +
                         "_v" + defaultConfig.versionName + "beta" +
                         "_" + variant.productFlavors[0].name +
-                        "_" + getDate() + '.apk'
+                        "_" + new Date().format('yyyyMMddHHmm') +
+                        '.apk'
                 output.outputFile = new File(oldFile.parent, baseApkName)
             }
             if (variant.buildType.name.equals('debug')) {
@@ -69,8 +58,18 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.1'
+//    compile 'com.android.support:appcompat-v7:23.2.1'
 
-    compile project(':Utils:commonlibrary')
-    compile project(':Utils:minigamelib')
+    compile project(':AndroidUtils:library')
+
+    //Facebook广告 start
+    compile files('libs/AudienceNetwork_v4.7.jar')
+    //Facebook广告 end
+
+//    compile 'com.google.firebase:firebase-config:9.4.0'
+//    compile 'com.google.firebase:firebase-analytics:9.4.0'
+//    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-ads:9.4.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -4,55 +4,71 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.cpxiao.commonlibrary.utils.MediaPlayerUtils;
-import com.cpxiao.commonlibrary.utils.PreferencesUtils;
-import com.cpxiao.hexagon.GameView;
+import com.cpxiao.androidutils.library.utils.MediaPlayerUtils;
+import com.cpxiao.androidutils.library.utils.PreferencesUtils;
+import com.cpxiao.hexagon.Extra;
 import com.cpxiao.hexagon.R;
-import com.cpxiao.minigamelib.ExtraKey;
-import com.cpxiao.minigamelib.OnGameListener;
-import com.cpxiao.minigamelib.activity.CommonGameActivity;
-import com.cpxiao.minigamelib.views.DialogUtils;
+import com.cpxiao.hexagon.imps.OnGameListener;
+import com.cpxiao.hexagon.mode.GameMode;
+import com.cpxiao.hexagon.views.DialogUtils;
+import com.cpxiao.hexagon.views.GameView;
+import com.cpxiao.lib.activity.BaseActivity;
 
 /**
- * Created by cpxiao on 4/9/16.
  * GameActivity
+ *
+ * @author cpxiao on 2016/4/9.
  */
 
-public class GameActivity extends CommonGameActivity implements OnGameListener {
-    private int mGameType;
+public class GameActivity extends BaseActivity implements OnGameListener {
+    /**
+     * 游戏类型
+     */
+    private int mGameMode;
+    /**
+     * 分数
+     */
+    protected int mBestScore;
+    /**
+     * 当前分数view
+     */
+    protected TextView mScoreView;
+    /**
+     * 最高分view
+     */
+    protected TextView mBestScoreView;
+    /**
+     * Game View Layout
+     */
+    protected LinearLayout mGameViewLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_game);
+        mGameMode = getIntent().getIntExtra(Extra.Name.GAME_MODE, GameMode.MODE_DEFAULT);
         MediaPlayerUtils.getInstance().init(this, R.raw.hexagon_bgm);
 
         initWidget();
-        initSmallAds("299750750363934_299751660363843");
+        initFbAds50("299750750363934_299751660363843");
     }
 
-    @Override
     protected void initWidget() {
-        super.initWidget();
-        mScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_score));
-        setScore(0);
+        mScoreView = (TextView) findViewById(R.id.score);
+        mBestScoreView = (TextView) findViewById(R.id.best_score);
+        mGameViewLayout = (LinearLayout) findViewById(R.id.game_view_layout);
+        setScoreView(0);
 
-        mBestScoreView.setTextColor(ContextCompat.getColor(this, R.color.color_text_best));
-        mBestScore = PreferencesUtils.getInt(this, ExtraKey.KEY_BEST_SCORE, 0);
-        setBestScore(mBestScore);
-
-        mLifeBar.setVisibility(View.GONE);
-
-        mSettingBtn.setVisibility(View.GONE);
+        mBestScore = getBestScore();
+        setBestScoreView(mBestScore);
 
         /**
          *创建游戏View
          */
-        mGameType = getIntent().getIntExtra(ExtraKey.INTENT_EXTRA_GAME_TYPE, 5);
-        GameView gameView = new GameView(GameActivity.this, mGameType);
+        GameView gameView = new GameView(GameActivity.this, mGameMode);
         gameView.setGameListener(this);
 
         mGameViewLayout.addView(gameView);
@@ -77,21 +93,26 @@ public class GameActivity extends CommonGameActivity implements OnGameListener {
     }
 
 
-    public static void come2me(Context context, int gameType) {
+    public static Intent makeIntent(Context context, int gameType) {
         Intent intent = new Intent(context, GameActivity.class);
-        intent.putExtra(ExtraKey.INTENT_EXTRA_GAME_TYPE, gameType);
+        intent.putExtra(Extra.Name.GAME_MODE, gameType);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return intent;
+    }
+
+    public static void come2me(Context context, int gameType) {
+        Intent intent = makeIntent(context, gameType);
         context.startActivity(intent);
     }
 
     @Override
     public void onScoreChange(int score) {
-        setScore(score);
+        setScoreView(score);
         if (score > mBestScore) {
             mBestScore = score;
-            PreferencesUtils.putInt(this, ExtraKey.KEY_BEST_SCORE, mBestScore);
+            setBestScore(mBestScore);
         }
-        setBestScore(mBestScore);
+        setBestScoreView(mBestScore);
     }
 
     @Override
@@ -100,7 +121,7 @@ public class GameActivity extends CommonGameActivity implements OnGameListener {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        GameActivity.come2me(GameActivity.this, mGameType);
+                        startActivity(makeIntent(GameActivity.this, mGameMode));
                     }
                 },
                 new DialogInterface.OnClickListener() {
@@ -115,4 +136,40 @@ public class GameActivity extends CommonGameActivity implements OnGameListener {
     public void onSuccess() {
 
     }
+
+    protected void setScoreView(int score) {
+        if (mScoreView != null) {
+            mScoreView.setText(String.valueOf(score));
+        }
+    }
+
+    protected void setBestScoreView(int bestScore) {
+        if (mBestScoreView != null) {
+            String bestScoreText = getResources().getText(R.string.btn_best_score) + ": " + String.valueOf(bestScore);
+            mBestScoreView.setText(bestScoreText);
+        }
+    }
+
+    private int getBestScore() {
+        int bestScore = 0;
+        if (mGameMode == GameMode.MODE_R_5) {
+            bestScore = PreferencesUtils.getInt(this, Extra.Key.BEST_SCORE, 0);
+        } else if (mGameMode == GameMode.MODE_R_6) {
+            bestScore = PreferencesUtils.getInt(this, Extra.Key.BEST_SCORE_R6, 0);
+        } else if (mGameMode == GameMode.MODE_R_7) {
+            bestScore = PreferencesUtils.getInt(this, Extra.Key.BEST_SCORE_R7, 0);
+        }
+        return bestScore;
+    }
+
+    private void setBestScore(int bestScore) {
+        if (mGameMode == GameMode.MODE_R_5) {
+            PreferencesUtils.putInt(this, Extra.Key.BEST_SCORE, bestScore);
+        } else if (mGameMode == GameMode.MODE_R_6) {
+            PreferencesUtils.putInt(this, Extra.Key.BEST_SCORE_R6, bestScore);
+        } else if (mGameMode == GameMode.MODE_R_7) {
+            PreferencesUtils.putInt(this, Extra.Key.BEST_SCORE_R7, bestScore);
+        }
+    }
+
 }

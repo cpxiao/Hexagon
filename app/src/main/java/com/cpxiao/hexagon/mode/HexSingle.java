@@ -1,11 +1,14 @@
-package com.cpxiao.hexagon;
+package com.cpxiao.hexagon.mode;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
+import com.cpxiao.hexagon.R;
+
 /**
- * Created by cpxiao on 1/27/16.
  * 单个六边形块
+ *
+ * @author cpxiao on 2016/1/27.
  */
 public class HexSingle {
     /**

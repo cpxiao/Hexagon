@@ -62,5 +62,14 @@
     <color name="color_text_about_me">#8b8884</color>
     <color name="color_text_version">#ffc000</color>
 
+    <color name="bgDefaultColor">#ffffff</color>
+
+    <color name="common_white">#ffffff</color>
+    <color name="common_black">#000000</color>
+
+
+    <color name="btn_hexagon">#f8c8bf</color>
+    <color name="btn_hexagon_tap">#f9d9cf</color>
+
 
 </resources>

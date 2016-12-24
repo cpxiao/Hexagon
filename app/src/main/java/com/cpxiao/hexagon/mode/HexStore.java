@@ -1,10 +1,11 @@
-package com.cpxiao.hexagon;
+package com.cpxiao.hexagon.mode;
 
 import android.content.Context;
 
 /**
- * Created by cpxiao on 2/1/16.
  * 组合六边形块
+ *
+ * @author cpxiao on 2016/2/1.
  */
 public class HexStore {
     public int mBlockX;

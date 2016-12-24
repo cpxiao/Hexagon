@@ -1,5 +1,43 @@
 <resources>
     <string name="app_name">Hexagon</string>
 
+    <string name="btn_r5">New Game (R5)</string>
+    <string name="btn_r6">New Game (R6)</string>
+    <string name="btn_r7">New Game (R7)</string>
+    <string name="btn_best_score">Best Score</string>
+    <string name="btn_quit">Quit</string>
 
+    <string name="best_score">Best Score</string>
+
+    <string name="btn_start">Start</string>
+    <string name="btn_restart">Restart</string>
+    <string name="btn_play">Play</string>
+    <string name="btn_home">Home</string>
+
+    <string name="btn_classic">Classic Mode</string>
+    <string name="btn_extra">Extra Mode</string>
+    <string name="btn_time">Time Mode</string>
+
+    <string name="game_over">Game Over</string>
+    <string name="play_again">Play Again ?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="you_win">You Win !</string>
+    <string name="you_lose">You Lose !</string>
+    <string name="success">Success</string>
+    <string name="fail">Fail</string>
+    <string name="tap_to_continue">Tap to continue</string>
+    <string name="retry_level">Retry Level</string>
+    <string name="next_level">Next Level</string>
+    <string name="level">Level</string>
+    <string name="score">Score</string>
+    <string name="two_player">2 Players</string>
+    <string name="one_player">1 Player</string>
+
+    <string name="game_difficulty">Game Difficulty</string>
+    <string name="game_difficulty_easy">Easy</string>
+    <string name="game_difficulty_normal">Normal</string>
+    <string name="game_difficulty_hard">Hard</string>
+    <string name="game_difficulty_insane">Insane</string>
+    <string name="game_mode">Game Mode</string>
 </resources>

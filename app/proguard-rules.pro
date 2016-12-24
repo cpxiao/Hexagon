@@ -16,3 +16,8 @@
 #   public *;
 #}
 
+-dontwarn com.facebook.**
+-keep class com.facebook.** {
+    *;
+}
+
