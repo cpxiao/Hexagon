@@ -193,6 +193,7 @@ public class BaseActivity extends Activity {
             adRequest = new AdRequest.Builder()
                     .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// All emulators
                     .addTestDevice("E89B10531C8CCB95C447A97261F6AA0E")//坚果
+                    .addTestDevice("E1E0F81BBFC3DDCC151FE415046C6E40")//坚果170208
                     .build();
         } else {
             adRequest = new AdRequest.Builder()

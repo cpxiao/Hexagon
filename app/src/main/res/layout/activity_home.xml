@@ -45,6 +45,13 @@
             android:text="@string/btn_best_score"/>
 
         <Button
+            android:id="@+id/btn_settings"
+            style="@style/HomeBtn"
+            android:layout_width="@dimen/home_activity_btn_width"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_settings"/>
+
+        <Button
             android:id="@+id/btn_quit"
             style="@style/HomeBtn"
             android:layout_width="@dimen/home_activity_btn_width"

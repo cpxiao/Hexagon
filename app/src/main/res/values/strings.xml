@@ -5,6 +5,7 @@
     <string name="btn_r6">New Game (R6)</string>
     <string name="btn_r7">New Game (R7)</string>
     <string name="btn_best_score">Best Score</string>
+    <string name="btn_settings">Settings</string>
     <string name="btn_quit">Quit</string>
 
     <string name="best_score">Best Score</string>
@@ -40,4 +41,14 @@
     <string name="game_difficulty_hard">Hard</string>
     <string name="game_difficulty_insane">Insane</string>
     <string name="game_mode">Game Mode</string>
+
+    <string name="settings_grid_size">主板尺寸</string>
+    <string name="settings_color">颜色方案</string>
+    <string name="settings_color_alpha">颜色透明度</string>
+    <string name="settings_sound">音效</string>
+    <string name="settings_bgm">音乐</string>
+    <string name="settings_borders">边界</string>
+    <string name="settings_on">开</string>
+    <string name="settings_off">关</string>
+
 </resources>

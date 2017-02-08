@@ -1,4 +1,4 @@
-package com.cpxiao.hexagon;//package com.cpxiao.androidminigame.library;
+package com.cpxiao.hexagon;
 
 /**
  * Extra
@@ -34,6 +34,18 @@ public final class Extra {
          * R7最高分，默认为0分
          */
         public static final String BEST_SCORE_R7 = "BEST_SCORE_R7";
+
+        /**
+         * 音效开关，默认开
+         */
+        public static final String SETTING_SOUND = "SETTING_SOUND";
+        public static final boolean SETTING_SOUND_DEFAULT = true;
+
+        /**
+         * 音乐开关，默认开
+         */
+        public static final String SETTING_MUSIC = "SETTING_MUSIC";
+        public static final boolean SETTING_MUSIC_DEFAULT = true;
 
 
     }

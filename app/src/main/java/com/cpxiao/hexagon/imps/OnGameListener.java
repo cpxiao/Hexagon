@@ -1,4 +1,4 @@
-package com.cpxiao.hexagon.imps;//package com.cpxiao.androidminigame.library;
+package com.cpxiao.hexagon.imps;
 
 /**
  * OnGameListener

@@ -9,7 +9,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.androidutils.library.utils.SoundPoolUtils;
+import com.cpxiao.hexagon.Extra;
 import com.cpxiao.hexagon.mode.HexStore;
 import com.cpxiao.hexagon.imps.OnGameListener;
 import com.cpxiao.hexagon.R;
@@ -497,8 +499,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         /**计算此次得分*/
         int clearLineTotal = clearLine0 + clearLine1 + clearLine2;
+        boolean isSoundOn = PreferencesUtils.getBoolean(getContext(), Extra.Key.SETTING_SOUND, Extra.Key.SETTING_SOUND_DEFAULT);
         for (int i = 0; i < clearLineTotal; i++) {
-            SoundPoolUtils.getInstance().play(SOUND_POOL_CLEAR);
+            if (isSoundOn) {
+                SoundPoolUtils.getInstance().play(SOUND_POOL_CLEAR);
+            }
         }
         int clearHexNumTotal = clearHexNum0 + clearHexNum1 + clearHexNum2;
         mScore += clearHexNumTotal * (clearLineTotal + 1);

@@ -1,4 +1,4 @@
-package com.cpxiao.hexagon.views;//package com.cpxiao.hexagon.views;
+package com.cpxiao.hexagon.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;

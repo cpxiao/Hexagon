@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
 
-    <color name="white">#ffffff</color>
     <!--<color name="white">#ffffff</color>-->
-    <color name="black">#000000</color>
+    <!--<color name="white">#ffffff</color>-->
+    <!--<color name="black">#000000</color>-->
 
 
     <color name="hexColorDefault">#eeeeee</color>
-    <color name="colorBackgroundDefault">#ffffff</color>
+    <!--<color name="colorBackgroundDefault">#ffffff</color>-->
 
     <!--<string-array name="app">-->
     <!--<item>#B3DD9C</item>-->
@@ -53,23 +53,23 @@
 
     <color name="color_btn_best_score">#91cbec</color>
     <color name="color_btn_best_score_tap">#79bbe1</color>
-    <color name="color_btn_about_me">#a5a8e7</color>
-    <color name="color_btn_about_me_tap">#8f93df</color>
+    <!--<color name="color_btn_about_me">#a5a8e7</color>-->
+    <!--<color name="color_btn_about_me_tap">#8f93df</color>-->
 
     <color name="color_text_score">#ff9f94</color>
-    <color name="color_text_best">#87ccf3</color>
+    <!--<color name="color_text_best">#87ccf3</color>-->
 
-    <color name="color_text_about_me">#8b8884</color>
-    <color name="color_text_version">#ffc000</color>
+    <!--<color name="color_text_about_me">#8b8884</color>-->
+    <!--<color name="color_text_version">#ffc000</color>-->
 
     <color name="bgDefaultColor">#ffffff</color>
 
-    <color name="common_white">#ffffff</color>
-    <color name="common_black">#000000</color>
+    <!--<color name="common_white">#ffffff</color>-->
+    <!--<color name="common_black">#000000</color>-->
 
 
-    <color name="btn_hexagon">#f8c8bf</color>
-    <color name="btn_hexagon_tap">#f9d9cf</color>
+    <!--<color name="btn_hexagon">#f8c8bf</color>-->
+    <!--<color name="btn_hexagon_tap">#f9d9cf</color>-->
 
 
 </resources>

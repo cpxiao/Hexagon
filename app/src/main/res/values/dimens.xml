@@ -8,6 +8,9 @@
     <dimen name="dialog_btn_height">30dp</dimen>
     <dimen name="dialog_btn_size_16sp">16sp</dimen>
 
+    <dimen name="setting_item_height">60dp</dimen>
+
+
     <!--<dimen name="common_1dp">1dp</dimen>-->
     <!--<dimen name="common_2dp">2dp</dimen>-->
     <!--<dimen name="common_4dp">4dp</dimen>-->

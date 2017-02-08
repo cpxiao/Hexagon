@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,19 +33,19 @@ public class GameActivity extends BaseActivity implements OnGameListener {
     /**
      * 分数
      */
-    protected int mBestScore;
+    private int mBestScore;
     /**
      * 当前分数view
      */
-    protected TextView mScoreView;
+    private TextView mScoreView;
     /**
      * 最高分view
      */
-    protected TextView mBestScoreView;
+    private TextView mBestScoreView;
     /**
-     * Game View Layout
+     * Settings Btn
      */
-    protected LinearLayout mGameViewLayout;
+    private ImageView mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +56,22 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
         initWidget();
         initFbAds50("299750750363934_299751660363843");
+        initAdMobAds50("ca-app-pub-4157365005379790/1280015663");
     }
 
     protected void initWidget() {
         mScoreView = (TextView) findViewById(R.id.score);
         mBestScoreView = (TextView) findViewById(R.id.best_score);
-        mGameViewLayout = (LinearLayout) findViewById(R.id.game_view_layout);
+        mSettings = (ImageView) findViewById(R.id.btn_settings);
+        mSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        LinearLayout gameViewLayout = (LinearLayout) findViewById(R.id.game_view_layout);
+
         setScoreView(0);
 
         mBestScore = getBestScore();
@@ -71,13 +83,16 @@ public class GameActivity extends BaseActivity implements OnGameListener {
         GameView gameView = new GameView(GameActivity.this, mGameMode);
         gameView.setGameListener(this);
 
-        mGameViewLayout.addView(gameView);
+        gameViewLayout.addView(gameView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        MediaPlayerUtils.getInstance().start();
+        boolean isMusicOn = PreferencesUtils.getBoolean(getApplicationContext(), Extra.Key.SETTING_MUSIC, Extra.Key.SETTING_MUSIC_DEFAULT);
+        if (isMusicOn) {
+            MediaPlayerUtils.getInstance().start();
+        }
     }
 
     @Override
@@ -98,11 +113,6 @@ public class GameActivity extends BaseActivity implements OnGameListener {
         intent.putExtra(Extra.Name.GAME_MODE, gameType);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
-    }
-
-    public static void come2me(Context context, int gameType) {
-        Intent intent = makeIntent(context, gameType);
-        context.startActivity(intent);
     }
 
     @Override
