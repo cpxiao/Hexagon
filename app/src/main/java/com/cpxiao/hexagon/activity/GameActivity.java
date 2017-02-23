@@ -17,6 +17,7 @@ import com.cpxiao.hexagon.imps.OnGameListener;
 import com.cpxiao.hexagon.mode.GameMode;
 import com.cpxiao.hexagon.views.DialogUtils;
 import com.cpxiao.hexagon.views.GameView;
+import com.cpxiao.hexagon.views.SettingsDialog;
 import com.cpxiao.lib.activity.BaseActivity;
 
 /**
@@ -42,10 +43,6 @@ public class GameActivity extends BaseActivity implements OnGameListener {
      * 最高分view
      */
     private TextView mBestScoreView;
-    /**
-     * Settings Btn
-     */
-    private ImageView mSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +59,14 @@ public class GameActivity extends BaseActivity implements OnGameListener {
     protected void initWidget() {
         mScoreView = (TextView) findViewById(R.id.score);
         mBestScoreView = (TextView) findViewById(R.id.best_score);
-        mSettings = (ImageView) findViewById(R.id.btn_settings);
-        mSettings.setOnClickListener(new View.OnClickListener() {
+
+        //Settings Btn
+        ImageView settingsView = (ImageView) findViewById(R.id.btn_settings);
+        settingsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                final SettingsDialog dialog = new SettingsDialog(GameActivity.this);
+                dialog.show();
             }
         });
 
