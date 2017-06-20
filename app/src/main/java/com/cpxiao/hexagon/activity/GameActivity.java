@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cpxiao.androidutils.library.utils.MediaPlayerUtils;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
+import com.cpxiao.gamelib.activity.BaseActivity;
 import com.cpxiao.hexagon.Extra;
 import com.cpxiao.hexagon.R;
 import com.cpxiao.hexagon.imps.OnGameListener;
@@ -18,7 +19,6 @@ import com.cpxiao.hexagon.mode.GameMode;
 import com.cpxiao.hexagon.views.DialogUtils;
 import com.cpxiao.hexagon.views.GameView;
 import com.cpxiao.hexagon.views.SettingsDialog;
-import com.cpxiao.lib.activity.BaseActivity;
 
 /**
  * GameActivity

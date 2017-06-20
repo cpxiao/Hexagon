@@ -1,11 +1,13 @@
 <resources>
 
     <style name="HomeBtn">
+        <item name="android:padding">3dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:layout_margin">2dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/home_activity_btn_bg</item>
-        <!--<item name="android:textStyle">bold</item>-->
     </style>
 
 

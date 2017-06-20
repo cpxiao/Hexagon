@@ -10,7 +10,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.cpxiao.lib.Config;
+import com.cpxiao.gamelib.Config;
+
 
 /**
  * BaseSurfaceView

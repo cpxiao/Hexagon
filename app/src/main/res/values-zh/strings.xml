@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">六角消除</string>
+
+    <string name="btn_r5">新游戏 (R5)</string>
+    <string name="btn_r6">新游戏 (R6)</string>
+    <string name="btn_r7">新游戏 (R7)</string>
+    <string name="btn_best_score">最高分</string>
+    <string name="btn_settings">设置</string>
+    <string name="btn_quit">退出</string>
+
+    <string name="best_score">最高分</string>
+
+    <string name="game_over">游戏结束</string>
+    <string name="play_again">重新开始 ?</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+
+    <string name="settings_color_alpha">颜色透明度</string>
+    <string name="settings_sound">音效</string>
+    <string name="settings_bgm">音乐</string>
+    <string name="settings_on">开</string>
+    <string name="settings_off">关</string>
+
+</resources>

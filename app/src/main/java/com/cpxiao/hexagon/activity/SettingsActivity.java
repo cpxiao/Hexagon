@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
+import com.cpxiao.gamelib.activity.BaseActivity;
 import com.cpxiao.hexagon.Extra;
 import com.cpxiao.hexagon.R;
-import com.cpxiao.lib.activity.BaseActivity;
 
 /**
  * @author cpxiao on 2017/02/08.

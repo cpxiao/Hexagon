@@ -4,7 +4,7 @@
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_activity_bg"
+    android:background="@drawable/activity_home_bg"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -16,45 +16,52 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:padding="20dp"
+            android:src="@drawable/app_title"/>
+
         <Button
             android:id="@+id/btn_r5"
             style="@style/HomeBtn"
-            android:layout_width="@dimen/home_activity_btn_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_r5"/>
 
         <Button
             android:id="@+id/btn_r6"
             style="@style/HomeBtn"
-            android:layout_width="@dimen/home_activity_btn_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_r6"/>
 
         <Button
             android:id="@+id/btn_r7"
             style="@style/HomeBtn"
-            android:layout_width="@dimen/home_activity_btn_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_r7"/>
 
         <Button
             android:id="@+id/btn_best_score"
             style="@style/HomeBtn"
-            android:layout_width="@dimen/home_activity_btn_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_best_score"/>
 
         <Button
             android:id="@+id/btn_settings"
             style="@style/HomeBtn"
-            android:layout_width="@dimen/home_activity_btn_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_settings"/>
 
         <Button
             android:id="@+id/btn_quit"
             style="@style/HomeBtn"
-            android:layout_width="@dimen/home_activity_btn_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_quit"/>
     </LinearLayout>

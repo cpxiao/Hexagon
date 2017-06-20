@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.cpxiao.gamelib.activity.BaseActivity;
 import com.cpxiao.hexagon.R;
 import com.cpxiao.hexagon.mode.GameMode;
 import com.cpxiao.hexagon.views.BestScoreDialog;
-import com.cpxiao.lib.activity.BaseActivity;
 
 /**
  * HomeActivity
@@ -41,7 +41,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         bestScoreButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
         quitButton.setOnClickListener(this);
-
         quitButton.setVisibility(View.GONE);
     }
 
