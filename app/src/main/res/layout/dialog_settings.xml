@@ -15,7 +15,7 @@
         android:padding="10dp"
         android:text="@string/btn_settings"
         android:textColor="@android:color/white"
-        android:textSize="32sp"
+        android:textSize="28sp"
         android:textStyle="bold"/>
 
     <LinearLayout

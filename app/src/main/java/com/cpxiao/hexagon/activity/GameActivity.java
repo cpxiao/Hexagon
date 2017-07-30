@@ -4,21 +4,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.MediaPlayerUtils;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.gamelib.activity.BaseActivity;
 import com.cpxiao.hexagon.Extra;
-import com.cpxiao.hexagon.R;
 import com.cpxiao.hexagon.imps.OnGameListener;
 import com.cpxiao.hexagon.mode.GameMode;
-import com.cpxiao.hexagon.views.DialogUtils;
 import com.cpxiao.hexagon.views.GameView;
-import com.cpxiao.hexagon.views.SettingsDialog;
+import com.cpxiao.hexagon.views.dialog.SettingsDialog;
 
 /**
  * GameActivity
@@ -77,9 +77,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
         mBestScore = getBestScore();
         setBestScoreView(mBestScore);
 
-        /**
-         *创建游戏View
-         */
+        /*创建游戏View*/
         GameView gameView = new GameView(GameActivity.this, mGameMode);
         gameView.setGameListener(this);
 
@@ -127,24 +125,25 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
     @Override
     public void onGameOver() {
-        DialogUtils.createGameOverDialog(this,
-                new DialogInterface.OnClickListener() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.game_over))
+                .setMessage(getString(R.string.play_again))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(makeIntent(GameActivity.this, mGameMode));
                     }
-                },
-                new DialogInterface.OnClickListener() {
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
-                });
-    }
-
-    @Override
-    public void onSuccess() {
-
+                })
+                .create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     protected void setScoreView(int score) {
@@ -155,7 +154,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
     protected void setBestScoreView(int bestScore) {
         if (mBestScoreView != null) {
-            String bestScoreText = getResources().getText(R.string.btn_best_score) + ": " + String.valueOf(bestScore);
+            String bestScoreText = getResources().getText(R.string.btn_best_score) + ": " + bestScore;
             mBestScoreView.setText(bestScoreText);
         }
     }
@@ -168,6 +167,8 @@ public class GameActivity extends BaseActivity implements OnGameListener {
             bestScore = PreferencesUtils.getInt(this, Extra.Key.BEST_SCORE_R6, 0);
         } else if (mGameMode == GameMode.MODE_R_7) {
             bestScore = PreferencesUtils.getInt(this, Extra.Key.BEST_SCORE_R7, 0);
+        } else if (mGameMode == GameMode.MODE_R_8) {
+            bestScore = PreferencesUtils.getInt(this, Extra.Key.BEST_SCORE_R8, 0);
         }
         return bestScore;
     }
@@ -179,6 +180,8 @@ public class GameActivity extends BaseActivity implements OnGameListener {
             PreferencesUtils.putInt(this, Extra.Key.BEST_SCORE_R6, bestScore);
         } else if (mGameMode == GameMode.MODE_R_7) {
             PreferencesUtils.putInt(this, Extra.Key.BEST_SCORE_R7, bestScore);
+        } else if (mGameMode == GameMode.MODE_R_8) {
+            PreferencesUtils.putInt(this, Extra.Key.BEST_SCORE_R8, bestScore);
         }
     }
 

@@ -1,14 +1,14 @@
-package com.cpxiao.hexagon.views;
+package com.cpxiao.hexagon.views.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.MediaPlayerUtils;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.hexagon.Extra;
-import com.cpxiao.hexagon.R;
 
 /**
  * @author cpxiao on 2017/2/23.

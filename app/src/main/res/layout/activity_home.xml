@@ -19,8 +19,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerInside"
             android:padding="20dp"
+            android:scaleType="centerInside"
             android:src="@drawable/app_title"/>
 
         <Button
@@ -45,6 +45,13 @@
             android:text="@string/btn_r7"/>
 
         <Button
+            android:id="@+id/btn_r8"
+            style="@style/HomeBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_r8"/>
+
+        <Button
             android:id="@+id/btn_best_score"
             style="@style/HomeBtn"
             android:layout_width="match_parent"
@@ -66,5 +73,5 @@
             android:text="@string/btn_quit"/>
     </LinearLayout>
 
-    <include layout="@layout/layout_ads"/>
+    <include layout="@layout/layout_ads_50"/>
 </LinearLayout>

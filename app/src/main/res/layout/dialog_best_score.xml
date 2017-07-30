@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
-    android:gravity="center"
     android:background="@drawable/dialog_bg"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -18,7 +18,7 @@
         android:padding="5dp"
         android:text="@string/best_score"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/dialog_title_size_28sp"/>
+        android:textSize="@dimen/dialog_title_size_24sp"/>
 
     <TableLayout
         android:layout_width="match_parent"
@@ -29,83 +29,73 @@
         <TableRow android:gravity="center">
 
             <TextView
-                android:id="@+id/easy_label"
+                style="@style/BestScoreDialogLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="3dp"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/dialog_msg_size_24sp"/>
+                android:layout_weight="2"
+                android:text="@string/btn_r5"/>
 
             <TextView
                 android:id="@+id/easy_score"
+                style="@style/BestScoreDialogValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:padding="3dp"
-                android:text="0"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/dialog_msg_size_24sp"/>
+                android:text="0"/>
         </TableRow>
 
         <TableRow android:gravity="center">
 
             <TextView
-                android:id="@+id/normal_label"
+                style="@style/BestScoreDialogLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:padding="3dp"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/dialog_msg_size_24sp"/>
+                android:layout_weight="2"
+                android:text="@string/btn_r6"/>
 
             <TextView
                 android:id="@+id/normal_score"
+                style="@style/BestScoreDialogValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:padding="3dp"
-                android:text="0"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/dialog_msg_size_24sp"/>
+                android:text="0"/>
         </TableRow>
 
         <TableRow android:gravity="center">
 
             <TextView
-                android:id="@+id/hard_label"
+                style="@style/BestScoreDialogLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:padding="3dp"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/dialog_msg_size_24sp"/>
+                android:layout_weight="2"
+                android:text="@string/btn_r7"/>
 
             <TextView
                 android:id="@+id/hard_score"
+                style="@style/BestScoreDialogValue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:padding="3dp"
-                android:text="0"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/dialog_msg_size_24sp"/>
+                android:text="0"/>
+        </TableRow>
+
+        <TableRow android:gravity="center">
+
+            <TextView
+                style="@style/BestScoreDialogLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/btn_r8"/>
+
+            <TextView
+                android:id="@+id/insane_score"
+                style="@style/BestScoreDialogValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"/>
         </TableRow>
     </TableLayout>
 

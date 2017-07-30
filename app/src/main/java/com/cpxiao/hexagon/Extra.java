@@ -34,6 +34,10 @@ public final class Extra {
          * R7最高分，默认为0分
          */
         public static final String BEST_SCORE_R7 = "BEST_SCORE_R7";
+        /**
+         * R8最高分，默认为0分
+         */
+        public static final String BEST_SCORE_R8 = "BEST_SCORE_R8";
 
         /**
          * 音效开关，默认开

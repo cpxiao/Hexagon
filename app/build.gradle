@@ -10,8 +10,8 @@ android {
         applicationId "com.cpxiao.hexagon"
         minSdkVersion 9 //使用freeline测试的时候最低14，之后改回对应版本9
         targetSdkVersion 23
-        versionCode 252
-        versionName "2.5.2"
+        versionCode 253
+        versionName "2.5.3"
     }
     buildTypes {
         release {
@@ -22,12 +22,7 @@ android {
     }
 
     productFlavors {
-//        debug_gp {
-//            minSdkVersion 14
-//        }
-        gp {
-            minSdkVersion 9
-        }
+        gp {}
     }
 
     productFlavors.all {
@@ -48,7 +43,7 @@ android {
                 def releaseApkName = packageName +
                         "_v" + defaultConfig.versionName +
                         "_" + variant.productFlavors[0].name +
-                        "_" +  new Date().format('yyyyMMddHHmm') +
+                        "_" + new Date().format('yyyyMMddHHmm') +
                         '.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
@@ -70,7 +65,21 @@ android {
 
 dependencies {
     compile project(':AndroidUtils:library')
-    compile project(':gamelib')
+    compile 'com.android.support:appcompat-v7:25.3.1'
+
+    /**
+     * Ads Start
+     */
+    //友盟统计
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    //Facebook广告
+    compile files('libs/AudienceNetwork_v4.7.jar')
+    //AdMob广告
+    compile 'com.google.firebase:firebase-ads:9.4.0'
+//    compile 'com.google.firebase:firebase-ads:11.0.1'
+    /**
+     * Ads End
+     */
 }
 
 apply plugin: 'com.google.gms.google-services'

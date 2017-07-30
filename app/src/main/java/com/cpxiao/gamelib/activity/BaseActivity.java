@@ -10,8 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.cpxiao.R;
 import com.cpxiao.gamelib.Config;
-import com.cpxiao.gamelib.R;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
@@ -23,6 +23,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 /**
@@ -79,7 +80,7 @@ public class BaseActivity extends Activity {
     }
 
     protected void initFbAds50(String placementId) {
-        initFbAds(placementId, AdSize.BANNER_HEIGHT_50);
+//        initFbAds(placementId, AdSize.BANNER_HEIGHT_50);
     }
 
     protected void initFbAds250(String placementId) {

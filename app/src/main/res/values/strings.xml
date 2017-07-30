@@ -2,9 +2,10 @@
 <resources>
     <string name="app_name">Hexagon</string>
 
-    <string name="btn_r5">New Game (R5)</string>
-    <string name="btn_r6">New Game (R6)</string>
-    <string name="btn_r7">New Game (R7)</string>
+    <string name="btn_r5">Easy (R5)</string>
+    <string name="btn_r6">Normal (R6)</string>
+    <string name="btn_r7">Hard (R7)</string>
+    <string name="btn_r8">Insane (R8)</string>
     <string name="btn_best_score">Best Score</string>
     <string name="btn_settings">Settings</string>
     <string name="btn_quit">Quit</string>

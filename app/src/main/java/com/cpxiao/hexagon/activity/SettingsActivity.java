@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.gamelib.activity.BaseActivity;
 import com.cpxiao.hexagon.Extra;
-import com.cpxiao.hexagon.R;
 
 /**
  * @author cpxiao on 2017/02/08.

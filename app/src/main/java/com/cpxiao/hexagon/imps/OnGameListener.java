@@ -16,8 +16,4 @@ public interface OnGameListener {
      */
     void onGameOver();
 
-    /**
-     * 游戏成功
-     */
-    void onSuccess();
 }

@@ -11,6 +11,23 @@
     </style>
 
 
+    <style name="BestScoreDialogLabel">
+        <item name="android:padding">3dp</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/dialog_msg_size_18sp</item>
+    </style>
+
+    <style name="BestScoreDialogValue">
+        <item name="android:padding">3dp</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">@dimen/dialog_msg_size_18sp</item>
+    </style>
+
+
     <style name="SettingsLabel">
         <item name="android:textSize">20sp</item>
         <item name="android:gravity">start|center_vertical</item>

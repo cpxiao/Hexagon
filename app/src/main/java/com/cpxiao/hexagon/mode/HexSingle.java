@@ -3,7 +3,7 @@ package com.cpxiao.hexagon.mode;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
-import com.cpxiao.hexagon.R;
+import com.cpxiao.R;
 
 /**
  * 单个六边形块

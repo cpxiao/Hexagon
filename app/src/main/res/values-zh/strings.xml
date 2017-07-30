@@ -2,9 +2,10 @@
 <resources>
     <string name="app_name">六角消除</string>
 
-    <string name="btn_r5">新游戏 (R5)</string>
-    <string name="btn_r6">新游戏 (R6)</string>
-    <string name="btn_r7">新游戏 (R7)</string>
+    <string name="btn_r5">简单 (R5)</string>
+    <string name="btn_r6">中等 (R6)</string>
+    <string name="btn_r7">困难 (R7)</string>
+    <string name="btn_r8">疯狂 (R8)</string>
     <string name="btn_best_score">最高分</string>
     <string name="btn_settings">设置</string>
     <string name="btn_quit">退出</string>

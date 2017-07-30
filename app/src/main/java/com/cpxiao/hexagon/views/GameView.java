@@ -9,14 +9,15 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.androidutils.library.utils.SoundPoolUtils;
+import com.cpxiao.gamelib.Config;
 import com.cpxiao.hexagon.Extra;
-import com.cpxiao.hexagon.mode.HexStore;
 import com.cpxiao.hexagon.imps.OnGameListener;
-import com.cpxiao.hexagon.R;
 import com.cpxiao.hexagon.mode.HexBase;
 import com.cpxiao.hexagon.mode.HexSingle;
+import com.cpxiao.hexagon.mode.HexStore;
 
 import java.util.HashMap;
 
@@ -28,6 +29,8 @@ import java.util.HashMap;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = GameView.class.getSimpleName();
+    private static final boolean DEBUG = Config.DEBUG;
+
     /**
      * 游戏类型 3、4、5、6、7...
      */
@@ -47,7 +50,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * 待选块
      */
-    int mHexBaseNumber = 3;
+    private int mHexBaseNumber = 3;
     private HexBase[] mHexBase;
     private RectF[] mHexBaseRectF;
 
@@ -69,7 +72,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Paint mPaint;
 
     private SurfaceHolder mSurfaceHolder;
-
 
     private GameView(Context context) {
         super(context);
@@ -94,10 +96,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.FILL);
-
-        //        MediaPlayerUtils.getInstance().init(context, R.raw.hexagon_bg_sound);
-        //        MediaPlayerUtils.getInstance().start();
-
+        mPaint.setAntiAlias(true);//抗锯齿
 
         SoundPoolUtils.getInstance().createSoundPool(20);
         HashMap<Integer, Integer> map = new HashMap<>();
@@ -247,9 +246,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
-        /**
-         * 先逻辑判断，再判断是否game over，防止可以消除但提示game over。
-         */
+
+        /*先逻辑判断，再判断是否game over，防止可以消除但提示game over。*/
         logic();
         isGameOver();
 
@@ -382,7 +380,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * 判断是否可消除，并计算相应得分
      */
     private void logic() {
-        /**判断"横"行*/
+        /*判断"横"行*/
         int clearLine0 = 0;
         int clearHexNum0 = 0;
         for (int y = 0; y < mHexStore.mBlockY; y++) {
@@ -413,7 +411,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-        /**判断"/"行*/
+        /*判断"/"行*/
         int clearLine1 = 0;
         int clearHexNum1 = 0;
         for (int i = 0; i < mHexStore.mBlockX + mHexStore.mBlockY - 1; i++) {
@@ -450,7 +448,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
-        /**判断"\"行*/
+        /*判断"\"行*/
         int clearLine2 = 0;
         int clearHexNum2 = 0;
         for (int i = 0; i < mHexStore.mBlockX + mHexStore.mBlockY - 1; i++) {
@@ -488,7 +486,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-        /**消除数据*/
+        /*消除数据*/
         for (int y = 0; y < mHexStore.mBlockY; y++) {
             for (int x = 0; x < mHexStore.mBlockX; x++) {
                 if (mHexStore.mHexagonBlocks[y][x].getState() == HexSingle.STATE_NEED_ELIMINATE) {
@@ -497,7 +495,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
         }
 
-        /**计算此次得分*/
+        /*计算此次得分*/
         int clearLineTotal = clearLine0 + clearLine1 + clearLine2;
         boolean isSoundOn = PreferencesUtils.getBoolean(getContext(), Extra.Key.SETTING_SOUND, Extra.Key.SETTING_SOUND_DEFAULT);
         for (int i = 0; i < clearLineTotal; i++) {
@@ -521,7 +519,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     private void updateHexStore(int indexX, int indexY, HexBase data, boolean isSave) {
         clearTempColor();
-
 
         //更新
         for (int y = 0; y < data.mBlockY; y++) {

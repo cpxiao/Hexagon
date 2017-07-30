@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.cpxiao.R;
 import com.cpxiao.gamelib.activity.BaseActivity;
-import com.cpxiao.hexagon.R;
 import com.cpxiao.hexagon.mode.GameMode;
-import com.cpxiao.hexagon.views.BestScoreDialog;
+import com.cpxiao.hexagon.views.dialog.BestScoreDialog;
 
 /**
  * HomeActivity
@@ -31,6 +31,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         Button newGameR5Button = (Button) findViewById(R.id.btn_r5);
         Button newGameR6Button = (Button) findViewById(R.id.btn_r6);
         Button newGameR7Button = (Button) findViewById(R.id.btn_r7);
+        Button newGameR8Button = (Button) findViewById(R.id.btn_r8);
         Button bestScoreButton = (Button) findViewById(R.id.btn_best_score);
         Button settingsButton = (Button) findViewById(R.id.btn_settings);
         Button quitButton = (Button) findViewById(R.id.btn_quit);
@@ -38,6 +39,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         newGameR5Button.setOnClickListener(this);
         newGameR6Button.setOnClickListener(this);
         newGameR7Button.setOnClickListener(this);
+        newGameR8Button.setOnClickListener(this);
         bestScoreButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
         quitButton.setOnClickListener(this);
@@ -53,6 +55,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             startActivity(GameActivity.makeIntent(HomeActivity.this, GameMode.MODE_R_6));
         } else if (id == R.id.btn_r7) {
             startActivity(GameActivity.makeIntent(HomeActivity.this, GameMode.MODE_R_7));
+        } else if (id == R.id.btn_r8) {
+            startActivity(GameActivity.makeIntent(HomeActivity.this, GameMode.MODE_R_8));
         } else if (id == R.id.btn_best_score) {
             final BestScoreDialog dialog = new BestScoreDialog(HomeActivity.this);
             dialog.setButtonOK(new View.OnClickListener() {

@@ -28,10 +28,9 @@
 
     </string-array>
 
-    <color name="color_btn_best_score">#91cbec</color>
-    <color name="color_btn_best_score_tap">#79bbe1</color>
+    <color name="color_score">#ff9f94</color>
+    <color name="color_best_score">#91cbec</color>
 
-    <color name="color_text_score">#ff9f94</color>
 
     <color name="bgDefaultColor">#ffffff</color>
 
