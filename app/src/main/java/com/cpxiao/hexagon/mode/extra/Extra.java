@@ -1,4 +1,4 @@
-package com.cpxiao.hexagon;
+package com.cpxiao.hexagon.mode.extra;
 
 /**
  * Extra

@@ -14,9 +14,9 @@ import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.MediaPlayerUtils;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.gamelib.activity.BaseActivity;
-import com.cpxiao.hexagon.Extra;
+import com.cpxiao.hexagon.mode.extra.Extra;
 import com.cpxiao.hexagon.imps.OnGameListener;
-import com.cpxiao.hexagon.mode.GameMode;
+import com.cpxiao.hexagon.mode.extra.GameMode;
 import com.cpxiao.hexagon.views.GameView;
 import com.cpxiao.hexagon.views.dialog.SettingsDialog;
 

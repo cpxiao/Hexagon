@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.cpxiao.R;
-import com.cpxiao.gamelib.Config;
+import com.cpxiao.AppConfig;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
@@ -31,7 +31,7 @@ import java.util.List;
  * @version 2017/3/17更新打印log信息
  */
 public class BaseActivity extends Activity {
-    protected static final boolean DEBUG = Config.DEBUG;
+    protected static final boolean DEBUG = AppConfig.DEBUG;
     protected final String TAG = "CPXIAO--" + getClass().getSimpleName();
 
     protected AdView mFbAdView;

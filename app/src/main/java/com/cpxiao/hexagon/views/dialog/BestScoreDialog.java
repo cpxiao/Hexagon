@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
-import com.cpxiao.hexagon.Extra;
+import com.cpxiao.hexagon.mode.extra.Extra;
 
 /**
  * @author cpxiao on 2015/10/22.

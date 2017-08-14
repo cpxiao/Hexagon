@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -12,12 +13,13 @@ import android.view.SurfaceView;
 import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.androidutils.library.utils.SoundPoolUtils;
-import com.cpxiao.gamelib.Config;
-import com.cpxiao.hexagon.Extra;
+import com.cpxiao.AppConfig;
+import com.cpxiao.hexagon.mode.HexState;
+import com.cpxiao.hexagon.mode.extra.Extra;
 import com.cpxiao.hexagon.imps.OnGameListener;
-import com.cpxiao.hexagon.mode.HexBase;
-import com.cpxiao.hexagon.mode.HexSingle;
-import com.cpxiao.hexagon.mode.HexStore;
+import com.cpxiao.hexagon.mode.MultiHexBase;
+import com.cpxiao.hexagon.mode.SingleHex;
+import com.cpxiao.hexagon.mode.MultiHexStore;
 
 import java.util.HashMap;
 
@@ -29,12 +31,12 @@ import java.util.HashMap;
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = GameView.class.getSimpleName();
-    private static final boolean DEBUG = Config.DEBUG;
+    private static final boolean DEBUG = AppConfig.DEBUG;
 
     /**
-     * 游戏类型 3、4、5、6、7...
+     * 游戏类型 5、6、7、8...
      */
-    private int mGameType;
+    private int mGameMode;
 
     /**
      * 分数
@@ -44,15 +46,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * 游戏中心区域
      */
-    private HexStore mHexStore;
+    private MultiHexStore mMultiHexStore;
     private RectF mHexStoreRectF;
 
     /**
      * 待选块
      */
-    private int mHexBaseNumber = 3;
-    private HexBase[] mHexBase;
-    private RectF[] mHexBaseRectF;
+    private static final int mMultiHexBaseCount = 3;
+    private MultiHexBase[] mMultiHexBaseArray;
+    private RectF[] mMultiHexBaseRectFArray;
 
     /**
      * 选择块的下标
@@ -62,6 +64,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * 三种状态的尺寸
      */
+    private float paddingLR;//左右两边的padding值
     private float mRadiusOutL;
     private float mRadiusOutM;
     private float mRadiusOutS;
@@ -71,22 +74,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Paint mPaint;
 
+    /**
+     * 音效id
+     */
+    private static final int SOUND_POOL_CLEAR = 0;
+
     private SurfaceHolder mSurfaceHolder;
 
     private GameView(Context context) {
         super(context);
     }
 
-    public GameView(Context context, int gameType) {
+    public GameView(Context context, int gameMode) {
         this(context);
-        init(context, gameType);
+        init(context, gameMode);
     }
 
-    private static final int SOUND_POOL_CLEAR = 0;
-
-    private void init(Context context, int gameType) {
-        mGameType = gameType;
-        initHexStore(context, gameType);
+    private void init(Context context, int gameMode) {
+        mGameMode = gameMode;
+        initHexStore(context, gameMode);
         initHexBase(context);
 
         //实例SurfaceHolder
@@ -105,35 +111,43 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-    private void initHexStore(Context context, int gameType) {
-        int mBlockX = gameType * 4 - 3;
-        int mBlockY = gameType * 2 - 1;
+    private void initHexStore(Context context, int gameMode) {
+        //        int countX = gameMode * 4 - 3;
+        //        int countY = gameMode * 2 - 1;
 
-        mHexStore = new HexStore(context, mBlockX, mBlockY);
+        //        mMultiHexStore = new MultiHexStore(context, countX, countY);
+        mMultiHexStore = new MultiHexStore(context, gameMode);
 
-        for (int y = 0; y < mBlockY; y++) {
-            for (int x = 0; x < mBlockX; x++) {
-                if ((gameType + y + x) % 2 == 0) {
-                    //这种情况不显示
-                    continue;
-                }
-                int tmp_y;
-                if (y < gameType) {
-                    tmp_y = y;
-                } else {
-                    tmp_y = (gameType - 1) * 2 - y;
-                }
-                if (x >= gameType - 1 - tmp_y && x <= gameType * 3 - 3 + tmp_y) {
-                    mHexStore.mHexagonBlocks[y][x].setState(HexSingle.STATE_EMPTY);
-                }
-            }
-        }
+        //        for (int y = 0; y < countY; y++) {
+        //            for (int x = 0; x < countX; x++) {
+        //                SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+        //                if ((gameMode + y + x) % 2 == 0) {
+        //                    //这种情况设置为Gone
+        //                    singleHex.setHexState(HexState.GONE);
+        //                    continue;
+        //                }
+        //                int tmp_y;
+        //                if (y < gameMode) {
+        //                    tmp_y = y;
+        //                } else {
+        //                    tmp_y = (gameMode - 1) * 2 - y;
+        //                }
+        //                if (x >= gameMode - 1 - tmp_y && x <= gameMode * 3 - 3 + tmp_y) {
+        //                    //在此范围内的设置为visible
+        //                    //                    singleHex.setState(SingleHex.STATE_EMPTY);
+        //                    singleHex.setHexState(HexState.STATE_EMPTY);
+        //                } else {
+        //                    //设置为invisible
+        //                    singleHex.setHexState(HexState.INVISIBLE);
+        //                }
+        //            }
+        //        }
     }
 
     private void initHexBase(Context context) {
-        mHexBase = new HexBase[mHexBaseNumber];
-        for (int i = 0; i < mHexBaseNumber; i++) {
-            mHexBase[i] = new HexBase(context);
+        mMultiHexBaseArray = new MultiHexBase[mMultiHexBaseCount];
+        for (int i = 0; i < mMultiHexBaseCount; i++) {
+            mMultiHexBaseArray[i] = new MultiHexBase(context, mGameMode);
         }
     }
 
@@ -143,33 +157,56 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int screenWidth = getWidth();
         int screenHeight = getHeight();
 
-        initRadius(screenWidth, screenHeight);
-        initHexStoreRectF(screenWidth);
+        paddingLR = 0.05F * screenWidth;
+        float w = screenWidth - 2 * paddingLR;
+        initRadius(w, screenHeight);
+        initHexStoreRectF(w);
         initHexBaseRectF(screenWidth);
         myDraw();
     }
 
-    private void initHexStoreRectF(int w) {
-        mHexStoreRectF = new RectF();
-        mHexStoreRectF.left = 0.0f;
-        mHexStoreRectF.right = mHexStoreRectF.left + w;
-        mHexStoreRectF.top = 0.0f;
-        mHexStoreRectF.bottom = mHexStoreRectF.top + mRadiusOutL * ((2 * mGameType) * (1.0f + mDeltaY) + (mGameType - 1));
+    /**
+     * 初始化六边形边长
+     */
+    private void initRadius(float w, float h) {
+
+        float per = 0.95f;
+        float perM = 0.8f;
+        float perS = 0.6f;
+
+
+        mRadiusOutL = getHexagonRadius(w, h);
+        mRadiusOutM = mRadiusOutL;
+        mRadiusOutS = mRadiusOutL * perS;
+
+        mRadiusInnerL = mRadiusOutL * per;
+        mRadiusInnerM = mRadiusOutM * perM * per;
+        mRadiusInnerS = mRadiusOutS * per;
+
     }
 
-    private void initHexBaseRectF(int w) {
-        mHexBaseRectF = new RectF[mHexBaseNumber];
-        for (int i = 0; i < mHexBaseNumber; i++) {
-            mHexBaseRectF[i] = new RectF();
+    private void initHexStoreRectF(float w) {
+
+        mHexStoreRectF = new RectF();
+        mHexStoreRectF.left = paddingLR;
+        mHexStoreRectF.right = mHexStoreRectF.left + w;
+        mHexStoreRectF.top = 0.0f;
+        mHexStoreRectF.bottom = mHexStoreRectF.top + mRadiusOutL * ((2 * mGameMode) * (1.0f + mDeltaY) + (mGameMode - 1));
+    }
+
+    private void initHexBaseRectF(float w) {
+        mMultiHexBaseRectFArray = new RectF[mMultiHexBaseCount];
+        for (int i = 0; i < mMultiHexBaseCount; i++) {
+            mMultiHexBaseRectFArray[i] = new RectF();
         }
         float paddingLR = mRadiusOutL / 2;
-        float width = (w - paddingLR * 2) / mHexBaseNumber;
+        float width = (w - paddingLR * 2) / mMultiHexBaseCount;
 
-        for (int i = 0; i < mHexBaseRectF.length; i++) {
-            mHexBaseRectF[i].left = paddingLR + width * i;
-            mHexBaseRectF[i].right = mHexBaseRectF[i].left + width;
-            mHexBaseRectF[i].top = (mGameType * 3) * mRadiusOutL;
-            mHexBaseRectF[i].bottom = mHexBaseRectF[i].top + width;
+        for (int i = 0; i < mMultiHexBaseRectFArray.length; i++) {
+            mMultiHexBaseRectFArray[i].left = paddingLR + width * i;
+            mMultiHexBaseRectFArray[i].right = mMultiHexBaseRectFArray[i].left + width;
+            mMultiHexBaseRectFArray[i].top = (mGameMode * 3) * mRadiusOutL;
+            mMultiHexBaseRectFArray[i].bottom = mMultiHexBaseRectFArray[i].top + width;
         }
     }
 
@@ -211,21 +248,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (MotionEvent.ACTION_DOWN == event.getAction()) {
             mHexBaseSelectedIndex = isOneHexBaseSelected(mEventX, mEventY);
             if (mHexBaseSelectedIndex >= 0) {
-                mEventDeltaY = -mRadiusOutL * (mHexBase[mHexBaseSelectedIndex].mBlockY * 2 + 1);
-                mEventDeltaX = -(mEventX - mHexBaseRectF[mHexBaseSelectedIndex].left);
+                mEventDeltaY = -mRadiusOutL * (mMultiHexBaseArray[mHexBaseSelectedIndex].mCountY * 2 + 1);
+                mEventDeltaX = -(mEventX - mMultiHexBaseRectFArray[mHexBaseSelectedIndex].left);
                 mEventX += mEventDeltaX;
                 mEventY += mEventDeltaY;
             }
-        } else if (MotionEvent.ACTION_UP == event.getAction()) {
-            int indexY = getIndexY(mEventY, mHexStoreRectF.top, mHexStoreRectF.bottom, mHexStore.mBlockY);
-            int indexX = getIndexX(indexY, mEventX, mHexStoreRectF.left, mHexStoreRectF.right, mHexStore.mBlockX);
+        } else if (MotionEvent.ACTION_MOVE == event.getAction()) {
+            int indexY = getIndexY(mEventY, mHexStoreRectF.top, mHexStoreRectF.bottom, mMultiHexStore.mCountY);
+            int indexX = getIndexX(indexY, mEventX, mHexStoreRectF.left, mHexStoreRectF.right, mMultiHexStore.mCountX);
 
             if (mHexBaseSelectedIndex != -1) {
-                boolean isCanBePlace = isCanBePlace(indexX, indexY, mHexStore, mHexBase[mHexBaseSelectedIndex]);
+                boolean isCanBePlace = isCanBePlace(indexX, indexY, mMultiHexStore, mMultiHexBaseArray[mHexBaseSelectedIndex]);
                 if (isCanBePlace) {
-                    updateHexStore(indexX, indexY, mHexBase[mHexBaseSelectedIndex], true);
-                    mScore += mHexBase[mHexBaseSelectedIndex].mShowHexNumber;
-                    mHexBase[mHexBaseSelectedIndex] = new HexBase(getContext());
+                    updateHexStore(indexX, indexY, mMultiHexBaseArray[mHexBaseSelectedIndex], false);
+                } else {
+                    clearTempColor();
+                }
+            }
+        } else if (MotionEvent.ACTION_UP == event.getAction()) {
+            int indexY = getIndexY(mEventY, mHexStoreRectF.top, mHexStoreRectF.bottom, mMultiHexStore.mCountY);
+            int indexX = getIndexX(indexY, mEventX, mHexStoreRectF.left, mHexStoreRectF.right, mMultiHexStore.mCountX);
+            if (mHexBaseSelectedIndex != -1) {
+                boolean isCanBePlace = isCanBePlace(indexX, indexY, mMultiHexStore, mMultiHexBaseArray[mHexBaseSelectedIndex]);
+                if (isCanBePlace) {
+                    updateHexStore(indexX, indexY, mMultiHexBaseArray[mHexBaseSelectedIndex], true);
+                    mScore += mMultiHexBaseArray[mHexBaseSelectedIndex].mVisibleHexCount;
+                    mMultiHexBaseArray[mHexBaseSelectedIndex] = new MultiHexBase(getContext(), mGameMode);
                     updateHexBase(mHexBaseSelectedIndex);
                 }
             }
@@ -233,18 +281,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             mHexBaseSelectedIndex = -1;
             mEventDeltaX = 0;
             mEventDeltaY = 0;
-        } else if (MotionEvent.ACTION_MOVE == event.getAction()) {
-            int indexY = getIndexY(mEventY, mHexStoreRectF.top, mHexStoreRectF.bottom, mHexStore.mBlockY);
-            int indexX = getIndexX(indexY, mEventX, mHexStoreRectF.left, mHexStoreRectF.right, mHexStore.mBlockX);
-
-            if (mHexBaseSelectedIndex != -1) {
-                boolean isCanBePlace = isCanBePlace(indexX, indexY, mHexStore, mHexBase[mHexBaseSelectedIndex]);
-                if (isCanBePlace) {
-                    updateHexStore(indexX, indexY, mHexBase[mHexBaseSelectedIndex], false);
-                } else {
-                    clearTempColor();
-                }
-            }
         }
 
         /*先逻辑判断，再判断是否game over，防止可以消除但提示game over。*/
@@ -257,14 +293,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void updateHexBase(int mHexBaseSelectedIndex) {
-        mHexBase[mHexBaseSelectedIndex] = new HexBase(getContext());
+        mMultiHexBaseArray[mHexBaseSelectedIndex] = new MultiHexBase(getContext(), mGameMode);
     }
 
     private boolean isGameOver() {
-        for (HexBase aMHexBase : mHexBase) {
-            for (int y = 0; y < mHexStore.mBlockY; y++) {
-                for (int x = 0; x < mHexStore.mBlockX; x++) {
-                    if (isCanBePlace(x, y, mHexStore, aMHexBase)) {
+        for (MultiHexBase multiHexBase : mMultiHexBaseArray) {
+            for (int y = 0; y < mMultiHexStore.mCountY; y++) {
+                for (int x = 0; x < mMultiHexStore.mCountX; x++) {
+                    if (isCanBePlace(x, y, mMultiHexStore, multiHexBase)) {
                         return false;
                     }
                 }
@@ -303,34 +339,37 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (mHexBaseSelectedIndex < 0) {
             return 0;
         }
-        boolean isShow = !mHexBase[mHexBaseSelectedIndex].mHexagonBlocks[0][0].isHide();
+
+        boolean isX0Y0Gone = mMultiHexBaseArray[mHexBaseSelectedIndex].mHexArray[0][0].isGone();//不能单纯判断第一个元素
+        //        boolean isX0Y0Gone = mMultiHexBaseArray[mHexBaseSelectedIndex].isX0Y0Show();
+
         int result;
-        if (isEvenNumber(mGameType)) {
+        if (isEvenNumber(mGameMode)) {
             if (isEvenNumber(indexY)) {
-                if (isShow) {
-                    result = getOddNumber(tmpX);
-                } else {
+                if (isX0Y0Gone) {
                     result = getEvenNumber(tmpX);
+                } else {
+                    result = getOddNumber(tmpX);
                 }
             } else {
-                if (isShow) {
-                    result = getEvenNumber(tmpX);
-                } else {
+                if (isX0Y0Gone) {
                     result = getOddNumber(tmpX);
+                } else {
+                    result = getEvenNumber(tmpX);
                 }
             }
         } else {
             if (isEvenNumber(indexY)) {
-                if (isShow) {
-                    result = getEvenNumber(tmpX);
-                } else {
+                if (isX0Y0Gone) {
                     result = getOddNumber(tmpX);
+                } else {
+                    result = getEvenNumber(tmpX);
                 }
             } else {
-                if (isShow) {
-                    result = getOddNumber(tmpX);
-                } else {
+                if (isX0Y0Gone) {
                     result = getEvenNumber(tmpX);
+                } else {
+                    result = getOddNumber(tmpX);
                 }
             }
         }
@@ -383,12 +422,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         /*判断"横"行*/
         int clearLine0 = 0;
         int clearHexNum0 = 0;
-        for (int y = 0; y < mHexStore.mBlockY; y++) {
+        for (int y = 0; y < mMultiHexStore.mCountY; y++) {
             boolean isFull = true;
             int showNumber = 0;
-            for (int x = 0; x < mHexStore.mBlockX; x++) {
-                if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
-                    if (mHexStore.mHexagonBlocks[y][x].hasColor()) {
+            for (int x = 0; x < mMultiHexStore.mCountX; x++) {
+                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
+                    if (mMultiHexStore.mHexArray[y][x].hasColor()) {
                         showNumber++;
                     } else {
                         isFull = false;
@@ -400,10 +439,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (isFull && showNumber > 0) {
                 clearLine0++;
                 clearHexNum0 += showNumber;
-                for (int x = 0; x < mHexStore.mBlockX; x++) {
-                    if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
-                        if (mHexStore.mHexagonBlocks[y][x].hasColor()) {
-                            mHexStore.mHexagonBlocks[y][x].setState(HexSingle.STATE_NEED_ELIMINATE);
+                for (int x = 0; x < mMultiHexStore.mCountX; x++) {
+                    if (!mMultiHexStore.mHexArray[y][x].isGone()) {
+                        if (mMultiHexStore.mHexArray[y][x].hasColor()) {
+                            //                            mMultiHexStore.mHexArray[y][x].setState(SingleHex.STATE_NEED_ELIMINATE);
+                            mMultiHexStore.mHexArray[y][x].setHexState(HexState.STATE_NEED_ELIMINATE);
                         }
                     }
                 }
@@ -414,16 +454,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         /*判断"/"行*/
         int clearLine1 = 0;
         int clearHexNum1 = 0;
-        for (int i = 0; i < mHexStore.mBlockX + mHexStore.mBlockY - 1; i++) {
+        for (int i = 0; i < mMultiHexStore.mCountX + mMultiHexStore.mCountY - 1; i++) {
             boolean isFull = true;
             int showNumber = 0;
-            for (int y = 0; y < mHexStore.mBlockY; y++) {
+            for (int y = 0; y < mMultiHexStore.mCountY; y++) {
                 int x = i - y;
-                if (x < 0 || x >= mHexStore.mBlockX) {
+                if (x < 0 || x >= mMultiHexStore.mCountX) {
                     continue;
                 }
-                if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
-                    if (mHexStore.mHexagonBlocks[y][x].hasColor()) {
+                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
+                    if (mMultiHexStore.mHexArray[y][x].hasColor()) {
                         showNumber++;
                     } else {
                         isFull = false;
@@ -434,14 +474,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (isFull && showNumber > 0) {
                 clearLine1++;
                 clearHexNum1 += showNumber;
-                for (int y = 0; y < mHexStore.mBlockY; y++) {
+                for (int y = 0; y < mMultiHexStore.mCountY; y++) {
                     int x = i - y;
-                    if (x < 0 || x >= mHexStore.mBlockX) {
+                    if (x < 0 || x >= mMultiHexStore.mCountX) {
                         continue;
                     }
-                    if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
-                        if (mHexStore.mHexagonBlocks[y][x].hasColor()) {
-                            mHexStore.mHexagonBlocks[y][x].setState(HexSingle.STATE_NEED_ELIMINATE);
+                    if (!mMultiHexStore.mHexArray[y][x].isGone()) {
+                        if (mMultiHexStore.mHexArray[y][x].hasColor()) {
+                            //                            mMultiHexStore.mHexArray[y][x].setState(SingleHex.STATE_NEED_ELIMINATE);
+                            mMultiHexStore.mHexArray[y][x].setHexState(HexState.STATE_NEED_ELIMINATE);
                         }
                     }
                 }
@@ -451,16 +492,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         /*判断"\"行*/
         int clearLine2 = 0;
         int clearHexNum2 = 0;
-        for (int i = 0; i < mHexStore.mBlockX + mHexStore.mBlockY - 1; i++) {
+        for (int i = 0; i < mMultiHexStore.mCountX + mMultiHexStore.mCountY - 1; i++) {
             boolean isFull = true;
             int showNumber = 0;
-            for (int y = 0; y < mHexStore.mBlockY; y++) {
-                int x = mHexStore.mBlockX - (i - y);
-                if (x < 0 || x >= mHexStore.mBlockX) {
+            for (int y = 0; y < mMultiHexStore.mCountY; y++) {
+                int x = mMultiHexStore.mCountX - (i - y);
+                if (x < 0 || x >= mMultiHexStore.mCountX) {
                     continue;
                 }
-                if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
-                    if (mHexStore.mHexagonBlocks[y][x].hasColor()) {
+                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
+                    if (mMultiHexStore.mHexArray[y][x].hasColor()) {
                         showNumber++;
                     } else {
                         isFull = false;
@@ -471,14 +512,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             if (isFull && showNumber > 0) {
                 clearLine2++;
                 clearHexNum2 += showNumber;
-                for (int y = 0; y < mHexStore.mBlockY; y++) {
-                    int x = mHexStore.mBlockX - (i - y);
-                    if (x < 0 || x >= mHexStore.mBlockX) {
+                for (int y = 0; y < mMultiHexStore.mCountY; y++) {
+                    int x = mMultiHexStore.mCountX - (i - y);
+                    if (x < 0 || x >= mMultiHexStore.mCountX) {
                         continue;
                     }
-                    if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
-                        if (mHexStore.mHexagonBlocks[y][x].hasColor()) {
-                            mHexStore.mHexagonBlocks[y][x].setState(HexSingle.STATE_NEED_ELIMINATE);
+                    if (!mMultiHexStore.mHexArray[y][x].isGone()) {
+                        if (mMultiHexStore.mHexArray[y][x].hasColor()) {
+                            //                            mMultiHexStore.mHexArray[y][x].setState(SingleHex.STATE_NEED_ELIMINATE);
+                            mMultiHexStore.mHexArray[y][x].setHexState(HexState.STATE_NEED_ELIMINATE);
                         }
                     }
                 }
@@ -487,10 +529,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         /*消除数据*/
-        for (int y = 0; y < mHexStore.mBlockY; y++) {
-            for (int x = 0; x < mHexStore.mBlockX; x++) {
-                if (mHexStore.mHexagonBlocks[y][x].getState() == HexSingle.STATE_NEED_ELIMINATE) {
-                    mHexStore.mHexagonBlocks[y][x].resetColor(getContext().getApplicationContext());
+        for (int y = 0; y < mMultiHexStore.mCountY; y++) {
+            for (int x = 0; x < mMultiHexStore.mCountX; x++) {
+                SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                //                if (singleHex.getState() == SingleHex.STATE_NEED_ELIMINATE) {
+                //                    singleHex.resetColor(getContext().getApplicationContext());
+                //                }
+                if (singleHex.getHexState() == HexState.STATE_NEED_ELIMINATE) {
+                    singleHex.resetColor(getContext().getApplicationContext());
                 }
             }
         }
@@ -517,19 +563,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * @param data   data
      * @param isSave isSave
      */
-    private void updateHexStore(int indexX, int indexY, HexBase data, boolean isSave) {
+    private void updateHexStore(int indexX, int indexY, MultiHexBase data, boolean isSave) {
         clearTempColor();
 
         //更新
-        for (int y = 0; y < data.mBlockY; y++) {
-            for (int x = 0; x < data.mBlockX; x++) {
-                if (!data.mHexagonBlocks[y][x].isHide()) {
-                    HexSingle hexSingle = mHexStore.mHexagonBlocks[y + indexY][x + indexX];
+        for (int y = 0; y < data.mCountY; y++) {
+            for (int x = 0; x < data.mCountX; x++) {
+                if (!data.mHexArray[y][x].isGone() && !data.mHexArray[y][x].isInvisible()) {
+                    SingleHex hexSingle = mMultiHexStore.mHexArray[y + indexY][x + indexX];
                     hexSingle.setColor(data.mColor);
                     if (isSave) {
-                        hexSingle.setState(HexSingle.STATE_HAS_COLOR);
+                        //                        hexSingle.setState(SingleHex.STATE_HAS_COLOR);
+                        hexSingle.setHexState(HexState.STATE_HAS_COLOR);
                     } else {
-                        hexSingle.setState(HexSingle.STATE_TEMP_COLOR);
+                        //                        hexSingle.setState(SingleHex.STATE_TEMP_COLOR);
+                        hexSingle.setHexState(HexState.STATE_TEMP_COLOR);
                     }
                 }
             }
@@ -540,11 +588,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * 清空临时颜色
      */
     private void clearTempColor() {
-        for (int y = 0; y < mHexStore.mBlockY; y++) {
-            for (int x = 0; x < mHexStore.mBlockX; x++) {
-                if (!mHexStore.mHexagonBlocks[y][x].isHide()) {
-                    HexSingle hexSingle = mHexStore.mHexagonBlocks[y][x];
-                    if (hexSingle.getState() == HexSingle.STATE_TEMP_COLOR) {
+        for (int y = 0; y < mMultiHexStore.mCountY; y++) {
+            for (int x = 0; x < mMultiHexStore.mCountX; x++) {
+                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
+                    SingleHex hexSingle = mMultiHexStore.mHexArray[y][x];
+                    //                    if (hexSingle.getState() == SingleHex.STATE_TEMP_COLOR) {
+                    //                        hexSingle.resetColor(getContext().getApplicationContext());
+                    //                    }
+                    if (hexSingle.getHexState() == HexState.STATE_TEMP_COLOR) {
                         hexSingle.resetColor(getContext().getApplicationContext());
                     }
                 }
@@ -553,8 +604,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private int isOneHexBaseSelected(float eventX, float eventY) {
-        for (int i = 0; i < mHexBaseRectF.length; i++) {
-            if (isPointInRectF(eventX, eventY, mHexBaseRectF[i].left, mHexBaseRectF[i].top, mHexBaseRectF[i].right, mHexBaseRectF[i].bottom, 0)) {
+        for (int i = 0; i < mMultiHexBaseRectFArray.length; i++) {
+            if (isPointInRectF(eventX, eventY, mMultiHexBaseRectFArray[i].left, mMultiHexBaseRectFArray[i].top, mMultiHexBaseRectFArray[i].right, mMultiHexBaseRectFArray[i].bottom, 0)) {
                 return i;
             }
         }
@@ -577,31 +628,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return eventX <= right + margin && eventX >= left - margin && eventY <= bottom + margin && eventY >= top - margin;
     }
 
-    /**
-     * 初始化六边形边长
-     */
-    private void initRadius(int w, int h) {
 
-        float per = 0.95f;
-        float perM = 0.8f;
-        float perS = 0.6f;
-
-
-        mRadiusOutL = getHexagonRadius(w, h);
-        mRadiusOutM = mRadiusOutL;
-        mRadiusOutS = mRadiusOutL * perS;
-
-        mRadiusInnerL = mRadiusOutL * per;
-        mRadiusInnerM = mRadiusOutM * perM * per;
-        mRadiusInnerS = mRadiusOutS * per;
-
-    }
-
-    public float getHexagonRadius(int width, int height) {
-        if (width <= 0 || height <= 0 || mGameType <= 0) {
+    public float getHexagonRadius(float width, float height) {
+        if (width <= 0 || height <= 0 || mGameMode <= 0) {
             return 0;
         }
-        return (float) ((float) width / (mGameType * 2.0 - 1) / Math.sqrt(3.0));
+        return (float) (width / (mGameMode * 2.0 - 1) / Math.sqrt(3.0));
     }
 
     private void myDraw() {
@@ -620,19 +652,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void drawHexStore(Canvas canvas) {
-        drawHexagons(canvas, mHexStore.mHexagonBlocks, mHexStoreRectF, mRadiusOutL, mRadiusInnerL, mPaint);
+        drawHexArray(canvas, mMultiHexStore.mHexArray, mHexStoreRectF, mRadiusOutL, mRadiusInnerL, mPaint);
     }
 
     private void drawHexBase(Canvas canvas) {
         //绘制待选项
-        for (int i = 0; i < mHexBase.length; i++) {
+        for (int i = 0; i < mMultiHexBaseArray.length; i++) {
             if (i != mHexBaseSelectedIndex) {
-                drawHexagons(canvas, mHexBase[i].mHexagonBlocks, mHexBaseRectF[i], mRadiusOutS, mRadiusInnerS, mPaint);
+                drawHexArray(canvas, mMultiHexBaseArray[i].mHexArray, mMultiHexBaseRectFArray[i], mRadiusOutS, mRadiusInnerS, mPaint);
             }
         }
         //绘制选中项
-        if (mHexBaseSelectedIndex >= 0 && mHexBaseSelectedIndex < mHexBase.length) {
-            drawHexagons(canvas, mHexBase[mHexBaseSelectedIndex].mHexagonBlocks, mEventX, mEventY, mRadiusOutM, mRadiusInnerM, mPaint);
+        if (mHexBaseSelectedIndex >= 0 && mHexBaseSelectedIndex < mMultiHexBaseArray.length) {
+            drawHexArray(canvas, mMultiHexBaseArray[mHexBaseSelectedIndex].mHexArray, mEventX, mEventY, mRadiusOutM, mRadiusInnerM, mPaint);
         }
     }
 
@@ -644,18 +676,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * 绘制六边形组合图
      */
-    private void drawHexagons(Canvas canvas, HexSingle[][] data, float xTopLeft, float yTopLeft, float rOut, float rInner, Paint paint) {
-        if (data == null || data.length <= 0 || data[0].length <= 0) {
+    private void drawHexArray(Canvas canvas, SingleHex[][] hexArray, float xTopLeft, float yTopLeft, float rOut, float rInner, Paint paint) {
+        if (hexArray == null || hexArray.length <= 0 || hexArray[0].length <= 0) {
             return;
         }
 
-        for (int y = 0; y < data.length; y++) {
-            for (int x = 0; x < data[0].length; x++) {
-                if (!data[y][x].isHide()) {
-                    float centerX = (float) (xTopLeft + (x + 1) * rOut * Math.cos(Math.PI / 6.0));
+        for (int y = 0; y < hexArray.length; y++) {
+            for (int x = 0; x < hexArray[0].length; x++) {
+                if (!hexArray[y][x].isGone() && !hexArray[y][x].isInvisible()) {
+                    float centerX = (float) (xTopLeft + (x + 1) * rOut * Math.cos(Math.PI / 6.0F));
                     float centerY = yTopLeft + rOut + y * rOut * (1.5f + mDeltaY);
-                    paint.setColor(data[y][x].getColor());
-                    if (data[y][x].getState() == HexSingle.STATE_TEMP_COLOR) {
+                    paint.setColor(hexArray[y][x].getColor());
+                    //                    if (hexArray[y][x].getState() == SingleHex.STATE_TEMP_COLOR) {
+                    //                        paint.setAlpha(160);
+                    //                    } else {
+                    //                        paint.setAlpha(255);
+                    //                    }
+                    if (hexArray[y][x].getHexState() == HexState.STATE_TEMP_COLOR) {
                         paint.setAlpha(160);
                     } else {
                         paint.setAlpha(255);
@@ -669,8 +706,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     /**
      * 绘制六边形组合图
      */
-    private void drawHexagons(Canvas canvas, HexSingle[][] data, RectF rectF, float rOut, float rInner, Paint paint) {
-        drawHexagons(canvas, data, rectF.left, rectF.top, rOut, rInner, paint);
+    private void drawHexArray(Canvas canvas, SingleHex[][] data, RectF rectF, float rOut, float rInner, Paint paint) {
+        drawHexArray(canvas, data, rectF.left, rectF.top, rOut, rInner, paint);
     }
 
     /**
@@ -715,35 +752,37 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * @param hexBase  待选区
      * @return boolean
      */
-    public boolean isCanBePlace(int placeX, int placeY, HexStore hexStore, HexBase hexBase) {
+    public boolean isCanBePlace(int placeX, int placeY, MultiHexStore hexStore, MultiHexBase hexBase) {
         if (hexStore == null || hexBase == null) {
             return false;
         }
-        if (placeX < 0 || placeY < 0 || placeX >= hexStore.mBlockX || placeY >= hexStore.mBlockY) {
+        if (placeX < 0 || placeY < 0 || placeX >= hexStore.mCountX || placeY >= hexStore.mCountY) {
             return false;
         }
 
         //刚好错位，不能放在此位置
-        if (hexStore.mHexagonBlocks[placeY][placeX].isHide() != hexBase.mHexagonBlocks[0][0].isHide()) {
+        if (hexStore.mHexArray[placeY][placeX].isGone() != hexBase.mHexArray[0][0].isGone()) {
+            Log.d(TAG, "isCanBePlace: ");
             return false;
         }
-        for (int y = 0; y < hexBase.mBlockY; y++) {
-            for (int x = 0; x < hexBase.mBlockX; x++) {
-                if (!hexBase.mHexagonBlocks[y][x].isHide()) {
+        for (int y = 0; y < hexBase.mCountY; y++) {
+            for (int x = 0; x < hexBase.mCountX; x++) {
+                if (!hexBase.mHexArray[y][x].isGone() && !hexBase.mHexArray[y][x].isInvisible()) {
                     //左边、上边越界
                     if (placeY + y < 0 || placeX + x < 0) {
                         return false;
                     }
                     //右边、下边越界
-                    if (placeY + y >= hexStore.mBlockY || placeX + x >= hexStore.mBlockX) {
+                    if (placeY + y >= hexStore.mCountY || placeX + x >= hexStore.mCountX) {
                         return false;
                     }
+                    SingleHex singleHex = hexStore.mHexArray[placeY + y][placeX + x];
                     //已填充
-                    if (hexStore.mHexagonBlocks[placeY + y][placeX + x].hasColor()) {
+                    if (singleHex.hasColor()) {
                         return false;
                     }
-                    //此位置不显示
-                    if (hexStore.mHexagonBlocks[placeY + y][placeX + x].isHide()) {
+                    //此位置为显示Gone或者invisible
+                    if (singleHex.isGone() || singleHex.isInvisible()) {
                         return false;
                     }
                 }

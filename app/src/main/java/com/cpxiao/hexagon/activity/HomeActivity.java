@@ -1,13 +1,16 @@
 package com.cpxiao.hexagon.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 
 import com.cpxiao.R;
 import com.cpxiao.gamelib.activity.BaseActivity;
-import com.cpxiao.hexagon.mode.GameMode;
+import com.cpxiao.hexagon.mode.extra.GameMode;
 import com.cpxiao.hexagon.views.dialog.BestScoreDialog;
 
 /**
@@ -43,7 +46,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         bestScoreButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
         quitButton.setOnClickListener(this);
-        quitButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -70,7 +72,35 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             Intent intent = SettingsActivity.makeIntent(HomeActivity.this, null);
             startActivity(intent);
         } else if (id == R.id.btn_quit) {
-            finish();
+            showQuitConfirmDialog();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //        super.onBackPressed();
+        showQuitConfirmDialog();
+    }
+
+    private void showQuitConfirmDialog() {
+        Dialog dialog = new AlertDialog.Builder(this)
+                //                .setTitle(R.string.quit_msg)
+                .setMessage(R.string.quit_msg)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        //            dialog.setCancelable(true);
+        //            dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 }
