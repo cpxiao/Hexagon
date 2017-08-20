@@ -1,13 +1,10 @@
 package com.cpxiao.hexagon.mode;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.cpxiao.R;
 import com.cpxiao.hexagon.mode.extra.GameColor;
 import com.cpxiao.hexagon.mode.extra.MultiHexBaseExtra;
-
-import static com.google.android.gms.internal.zzs.TAG;
 
 /**
  * 待选的组合六边形块
@@ -15,6 +12,7 @@ import static com.google.android.gms.internal.zzs.TAG;
  * @author cpxiao on 2016/2/1.
  */
 public class MultiHexBase {
+
     public int mColor;
     public int mCountX;
     public int mCountY;
@@ -57,14 +55,6 @@ public class MultiHexBase {
             }
         }
 
-        for (int y = 0; y < mCountY; y++) {
-            String msg = "";
-            for (int x = 0; x < mCountX; x++) {
-                msg = msg + mHexArray[y][x].getHexState() + ", ";
-            }
-            Log.d(TAG, "MultiHexBase: " + msg);
-        }
-        Log.d(TAG, "MultiHexBase:------------------------ ");
     }
 
 

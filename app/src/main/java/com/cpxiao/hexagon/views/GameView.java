@@ -1,6 +1,7 @@
 package com.cpxiao.hexagon.views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -10,16 +11,16 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.cpxiao.AppConfig;
 import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
 import com.cpxiao.androidutils.library.utils.SoundPoolUtils;
-import com.cpxiao.AppConfig;
-import com.cpxiao.hexagon.mode.HexState;
-import com.cpxiao.hexagon.mode.extra.Extra;
 import com.cpxiao.hexagon.imps.OnGameListener;
+import com.cpxiao.hexagon.mode.HexState;
 import com.cpxiao.hexagon.mode.MultiHexBase;
-import com.cpxiao.hexagon.mode.SingleHex;
 import com.cpxiao.hexagon.mode.MultiHexStore;
+import com.cpxiao.hexagon.mode.SingleHex;
+import com.cpxiao.hexagon.mode.extra.Extra;
 
 import java.util.HashMap;
 
@@ -65,6 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      * 三种状态的尺寸
      */
     private float paddingLR;//左右两边的padding值
+    private float paddingT;//上边的padding值
     private float mRadiusOutL;
     private float mRadiusOutM;
     private float mRadiusOutS;
@@ -112,36 +114,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     private void initHexStore(Context context, int gameMode) {
-        //        int countX = gameMode * 4 - 3;
-        //        int countY = gameMode * 2 - 1;
-
-        //        mMultiHexStore = new MultiHexStore(context, countX, countY);
         mMultiHexStore = new MultiHexStore(context, gameMode);
-
-        //        for (int y = 0; y < countY; y++) {
-        //            for (int x = 0; x < countX; x++) {
-        //                SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
-        //                if ((gameMode + y + x) % 2 == 0) {
-        //                    //这种情况设置为Gone
-        //                    singleHex.setHexState(HexState.GONE);
-        //                    continue;
-        //                }
-        //                int tmp_y;
-        //                if (y < gameMode) {
-        //                    tmp_y = y;
-        //                } else {
-        //                    tmp_y = (gameMode - 1) * 2 - y;
-        //                }
-        //                if (x >= gameMode - 1 - tmp_y && x <= gameMode * 3 - 3 + tmp_y) {
-        //                    //在此范围内的设置为visible
-        //                    //                    singleHex.setState(SingleHex.STATE_EMPTY);
-        //                    singleHex.setHexState(HexState.STATE_EMPTY);
-        //                } else {
-        //                    //设置为invisible
-        //                    singleHex.setHexState(HexState.INVISIBLE);
-        //                }
-        //            }
-        //        }
     }
 
     private void initHexBase(Context context) {
@@ -158,6 +131,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         int screenHeight = getHeight();
 
         paddingLR = 0.05F * screenWidth;
+        paddingT = 0.15F * screenHeight;
+        paddingT = Resources.getSystem().getDisplayMetrics().density * 90;
         float w = screenWidth - 2 * paddingLR;
         initRadius(w, screenHeight);
         initHexStoreRectF(w);
@@ -186,27 +161,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void initHexStoreRectF(float w) {
-
         mHexStoreRectF = new RectF();
         mHexStoreRectF.left = paddingLR;
         mHexStoreRectF.right = mHexStoreRectF.left + w;
-        mHexStoreRectF.top = 0.0f;
+        mHexStoreRectF.top = paddingT;
         mHexStoreRectF.bottom = mHexStoreRectF.top + mRadiusOutL * ((2 * mGameMode) * (1.0f + mDeltaY) + (mGameMode - 1));
     }
 
     private void initHexBaseRectF(float w) {
         mMultiHexBaseRectFArray = new RectF[mMultiHexBaseCount];
-        for (int i = 0; i < mMultiHexBaseCount; i++) {
-            mMultiHexBaseRectFArray[i] = new RectF();
-        }
+
         float paddingLR = mRadiusOutL / 2;
         float width = (w - paddingLR * 2) / mMultiHexBaseCount;
 
-        for (int i = 0; i < mMultiHexBaseRectFArray.length; i++) {
-            mMultiHexBaseRectFArray[i].left = paddingLR + width * i;
-            mMultiHexBaseRectFArray[i].right = mMultiHexBaseRectFArray[i].left + width;
-            mMultiHexBaseRectFArray[i].top = (mGameMode * 3) * mRadiusOutL;
-            mMultiHexBaseRectFArray[i].bottom = mMultiHexBaseRectFArray[i].top + width;
+        for (int i = 0; i < mMultiHexBaseCount; i++) {
+            RectF rectF = new RectF();
+            rectF.left = paddingLR + width * i;
+            rectF.right = rectF.left + width;
+//            rectF.top = paddingT + (mGameMode * 3) * mRadiusOutL;
+            rectF.top = mHexStoreRectF.bottom + Resources.getSystem().getDisplayMetrics().density * 20;
+            rectF.bottom = rectF.top + width;
+            mMultiHexBaseRectFArray[i] = rectF;
         }
     }
 

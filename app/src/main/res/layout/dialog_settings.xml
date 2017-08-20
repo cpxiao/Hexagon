@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="@string/btn_settings"
+        android:text="@string/settings"
         android:textColor="@android:color/white"
         android:textSize="28sp"
         android:textStyle="bold"/>

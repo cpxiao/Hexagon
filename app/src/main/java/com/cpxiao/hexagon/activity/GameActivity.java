@@ -13,12 +13,14 @@ import android.widget.TextView;
 import com.cpxiao.R;
 import com.cpxiao.androidutils.library.utils.MediaPlayerUtils;
 import com.cpxiao.androidutils.library.utils.PreferencesUtils;
-import com.cpxiao.gamelib.activity.BaseActivity;
-import com.cpxiao.hexagon.mode.extra.Extra;
+import com.cpxiao.gamelib.activity.BaseZAdsActivity;
 import com.cpxiao.hexagon.imps.OnGameListener;
+import com.cpxiao.hexagon.mode.extra.Extra;
 import com.cpxiao.hexagon.mode.extra.GameMode;
 import com.cpxiao.hexagon.views.GameView;
 import com.cpxiao.hexagon.views.dialog.SettingsDialog;
+import com.cpxiao.zads.ZAdManager;
+import com.cpxiao.zads.core.ZAdPosition;
 
 /**
  * GameActivity
@@ -26,7 +28,7 @@ import com.cpxiao.hexagon.views.dialog.SettingsDialog;
  * @author cpxiao on 2016/4/9.
  */
 
-public class GameActivity extends BaseActivity implements OnGameListener {
+public class GameActivity extends BaseZAdsActivity implements OnGameListener {
     /**
      * 游戏类型
      */
@@ -52,8 +54,33 @@ public class GameActivity extends BaseActivity implements OnGameListener {
         MediaPlayerUtils.getInstance().init(this, R.raw.hexagon_bgm);
 
         initWidget();
-        initFbAds50("299750750363934_299751660363843");
-        initAdMobAds50("ca-app-pub-4157365005379790/1280015663");
+//        initFbAds50("299750750363934_299751660363843");
+//        initAdMobAds50("ca-app-pub-4157365005379790/1280015663");
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_ads);
+        ZAdManager.getInstance().loadAd(this, ZAdPosition.POSITION_GAME, layout);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean isMusicOn = PreferencesUtils.getBoolean(getApplicationContext(), Extra.Key.SETTING_MUSIC, Extra.Key.SETTING_MUSIC_DEFAULT);
+        if (isMusicOn) {
+            MediaPlayerUtils.getInstance().start();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MediaPlayerUtils.getInstance().pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        ZAdManager.getInstance().destroy(this, ZAdPosition.POSITION_GAME);
+        super.onDestroy();
+        MediaPlayerUtils.getInstance().stop();
     }
 
     protected void initWidget() {
@@ -84,26 +111,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
         gameViewLayout.addView(gameView);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        boolean isMusicOn = PreferencesUtils.getBoolean(getApplicationContext(), Extra.Key.SETTING_MUSIC, Extra.Key.SETTING_MUSIC_DEFAULT);
-        if (isMusicOn) {
-            MediaPlayerUtils.getInstance().start();
-        }
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        MediaPlayerUtils.getInstance().pause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        MediaPlayerUtils.getInstance().stop();
-    }
 
 
     public static Intent makeIntent(Context context, int gameType) {
@@ -154,7 +162,7 @@ public class GameActivity extends BaseActivity implements OnGameListener {
 
     protected void setBestScoreView(int bestScore) {
         if (mBestScoreView != null) {
-            String bestScoreText = getResources().getText(R.string.btn_best_score) + ": " + bestScore;
+            String bestScoreText = getResources().getText(R.string.best_score) + ": " + bestScore;
             mBestScoreView.setText(bestScoreText);
         }
     }

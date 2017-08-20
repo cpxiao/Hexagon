@@ -1,9 +1,9 @@
-package com.cpxiao;
+package com.cpxiao.zads;
 
 /**
- * @author cpxiao on 2017/3/1.
+ * @author cpxiao on 2017/08/12.
  */
-public class AppConfig {
+public class ZAdsConfig {
     /**
      * debug
      */

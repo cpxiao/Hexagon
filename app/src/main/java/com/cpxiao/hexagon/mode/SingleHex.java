@@ -11,48 +11,12 @@ import com.cpxiao.R;
  * @author cpxiao on 2016/1/27.
  */
 public class SingleHex {
-    //    /**
-    //     * 隐藏不可见,Gone
-    //     */
-    //    public static final int STATE_GONE = 0;
-    //    /**
-    //     * 隐藏不可见,invisible
-    //     */
-    //    public static final int STATE_INVISIBLE = 1;
-    //    /**
-    //     * 可见,visible
-    //     */
-    //    public static final int STATE_VISIBLE = 2;
-    //
-    //    /**
-    //     * 空白的，可填充
-    //     */
-    //    public static final int STATE_EMPTY = 3;
-    //
-    //    /**
-    //     * 已填充
-    //     */
-    //    public static final int STATE_HAS_COLOR = 4;
-    //
-    //    /**
-    //     * 待消除
-    //     */
-    //    public static final int STATE_NEED_ELIMINATE = 5;
-    //
-    //    /**
-    //     * 临时的颜色，用于判断当前位置是否可以放置
-    //     */
-    //    public static final int STATE_TEMP_COLOR = 6;
-    //
-    //    /**
-    //     * 状态
-    //     */
-    //    private int mState;
 
     /**
      * Color
      */
     private int mColor;
+
     /**
      * 状态
      */

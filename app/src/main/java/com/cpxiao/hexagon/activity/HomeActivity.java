@@ -7,18 +7,21 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.cpxiao.R;
-import com.cpxiao.gamelib.activity.BaseActivity;
+import com.cpxiao.gamelib.activity.BaseZAdsActivity;
 import com.cpxiao.hexagon.mode.extra.GameMode;
 import com.cpxiao.hexagon.views.dialog.BestScoreDialog;
+import com.cpxiao.zads.ZAdManager;
+import com.cpxiao.zads.core.ZAdPosition;
 
 /**
  * HomeActivity
  *
  * @author cpxiao on 2016/5/5.
  */
-public class HomeActivity extends BaseActivity implements View.OnClickListener {
+public class HomeActivity extends BaseZAdsActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +29,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home);
 
         initWidget();
-        initFbAds50("299750750363934_299751287030547");
-        initAdMobAds50("ca-app-pub-4157365005379790/4701236068");
+//        initFbAds50("299750750363934_299751287030547");
+//        initAdMobAds50("ca-app-pub-4157365005379790/4701236068");
+
+        ZAdManager.getInstance().init(this);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_ads);
+        ZAdManager.getInstance().loadAd(this, ZAdPosition.POSITION_HOME, layout);
+    }
+
+    @Override
+    protected void onDestroy() {
+        ZAdManager.getInstance().destroyAllPosition(this);
+        super.onDestroy();
     }
 
     protected void initWidget() {

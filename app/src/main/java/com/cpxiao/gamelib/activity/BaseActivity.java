@@ -125,6 +125,13 @@ public class BaseActivity extends Activity {
                 }
             }
 
+            @Override
+            public void onLoggingImpression(Ad ad) {
+                if (DEBUG) {
+                    Log.d(TAG, "onLoggingImpression: ");
+                }
+            }
+
         });
         if (DEBUG) {
             //            AdSettings.addTestDevice("7d7fcc8ff3a053e48671f85990f1ab6d");//nexus 5
@@ -243,7 +250,7 @@ public class BaseActivity extends Activity {
         }
         removeFromParent(view);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.ads_layout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_ads);
         layout.removeAllViews();
         layout.addView(view);
     }
