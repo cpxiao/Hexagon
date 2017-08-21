@@ -28,40 +28,30 @@ public class SingleHex {
     }
 
     private void init(Context context) {
-        //        mState = STATE_INVISIBLE;
-        mHexState = HexState.VISIBLE;
+        //        mHexState = HexState.VISIBLE;
+        mHexState = HexState.STATE_EMPTY;
         mColor = ContextCompat.getColor(context, R.color.hexColorDefault);
     }
 
 
-    //    public void setState(int state) {
-    //        mState = state;
-    //    }
-    //
-    //    public int getState() {
-    //        return mState;
-    //    }
+    public boolean isHide() {
+        return mHexState == HexState.GONE || mHexState == HexState.INVISIBLE;
+    }
 
     public boolean isGone() {
         return mHexState == HexState.GONE;
-        //        return mState == STATE_INVISIBLE;
     }
 
     public boolean isInvisible() {
         return mHexState == HexState.INVISIBLE;
-        //        return mState == STATE_INVISIBLE;
     }
 
-    //    public boolean hasColor() {
-    //        return mState == STATE_HAS_COLOR || mState == STATE_NEED_ELIMINATE;
-    //    }
     public boolean hasColor() {
         return mHexState == HexState.STATE_HAS_COLOR || mHexState == HexState.STATE_NEED_ELIMINATE;
     }
 
     public void resetColor(Context c) {
         mColor = ContextCompat.getColor(c, R.color.hexColorDefault);
-        //        mState = STATE_EMPTY;
         mHexState = HexState.STATE_EMPTY;
     }
 

@@ -7,7 +7,7 @@ package com.cpxiao.hexagon.mode;
 public enum HexState {
     GONE,
     INVISIBLE,
-    VISIBLE,
+//    VISIBLE,
     STATE_EMPTY,
     STATE_HAS_COLOR,
     STATE_NEED_ELIMINATE,

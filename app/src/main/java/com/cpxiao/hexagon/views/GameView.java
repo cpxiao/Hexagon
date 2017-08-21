@@ -93,6 +93,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void init(Context context, int gameMode) {
+        if (DEBUG) {
+            Log.d(TAG, "init: ");
+        }
         mGameMode = gameMode;
         initHexStore(context, gameMode);
         initHexBase(context);
@@ -178,7 +181,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             RectF rectF = new RectF();
             rectF.left = paddingLR + width * i;
             rectF.right = rectF.left + width;
-//            rectF.top = paddingT + (mGameMode * 3) * mRadiusOutL;
             rectF.top = mHexStoreRectF.bottom + Resources.getSystem().getDisplayMetrics().density * 20;
             rectF.bottom = rectF.top + width;
             mMultiHexBaseRectFArray[i] = rectF;
@@ -207,10 +209,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     private float mEventX;
     private float mEventY;
+
     /**
      * 重新定位点击位置
      */
-
     private float mEventDeltaX = 0F;
     private float mEventDeltaY = 0F;
 
@@ -223,7 +225,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (MotionEvent.ACTION_DOWN == event.getAction()) {
             mHexBaseSelectedIndex = isOneHexBaseSelected(mEventX, mEventY);
             if (mHexBaseSelectedIndex >= 0) {
-                mEventDeltaY = -mRadiusOutL * (mMultiHexBaseArray[mHexBaseSelectedIndex].mCountY * 2 + 1);
+                //                mEventDeltaY = -mRadiusOutL * (mMultiHexBaseArray[mHexBaseSelectedIndex].mCountY * 2 + 1);
+                mEventDeltaY = -mRadiusOutL * (mMultiHexBaseArray[mHexBaseSelectedIndex].mCountY * 2)
+                        - Resources.getSystem().getDisplayMetrics().density * 50;
                 mEventDeltaX = -(mEventX - mMultiHexBaseRectFArray[mHexBaseSelectedIndex].left);
                 mEventX += mEventDeltaX;
                 mEventY += mEventDeltaY;
@@ -315,8 +319,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             return 0;
         }
 
-        boolean isX0Y0Gone = mMultiHexBaseArray[mHexBaseSelectedIndex].mHexArray[0][0].isGone();//不能单纯判断第一个元素
-        //        boolean isX0Y0Gone = mMultiHexBaseArray[mHexBaseSelectedIndex].isX0Y0Show();
+        boolean isX0Y0Gone = mMultiHexBaseArray[mHexBaseSelectedIndex].mHexArray[0][0].isGone();
 
         int result;
         if (isEvenNumber(mGameMode)) {
@@ -401,8 +404,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             boolean isFull = true;
             int showNumber = 0;
             for (int x = 0; x < mMultiHexStore.mCountX; x++) {
-                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
-                    if (mMultiHexStore.mHexArray[y][x].hasColor()) {
+                SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                if (!singleHex.isHide()) {
+                    if (singleHex.hasColor()) {
                         showNumber++;
                     } else {
                         isFull = false;
@@ -415,10 +419,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 clearLine0++;
                 clearHexNum0 += showNumber;
                 for (int x = 0; x < mMultiHexStore.mCountX; x++) {
-                    if (!mMultiHexStore.mHexArray[y][x].isGone()) {
-                        if (mMultiHexStore.mHexArray[y][x].hasColor()) {
-                            //                            mMultiHexStore.mHexArray[y][x].setState(SingleHex.STATE_NEED_ELIMINATE);
-                            mMultiHexStore.mHexArray[y][x].setHexState(HexState.STATE_NEED_ELIMINATE);
+                    SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                    if (!singleHex.isHide()) {
+                        if (singleHex.hasColor()) {
+                            singleHex.setHexState(HexState.STATE_NEED_ELIMINATE);
                         }
                     }
                 }
@@ -437,8 +441,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (x < 0 || x >= mMultiHexStore.mCountX) {
                     continue;
                 }
-                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
-                    if (mMultiHexStore.mHexArray[y][x].hasColor()) {
+                SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                if (!singleHex.isHide()) {
+                    if (singleHex.hasColor()) {
                         showNumber++;
                     } else {
                         isFull = false;
@@ -454,10 +459,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     if (x < 0 || x >= mMultiHexStore.mCountX) {
                         continue;
                     }
-                    if (!mMultiHexStore.mHexArray[y][x].isGone()) {
-                        if (mMultiHexStore.mHexArray[y][x].hasColor()) {
-                            //                            mMultiHexStore.mHexArray[y][x].setState(SingleHex.STATE_NEED_ELIMINATE);
-                            mMultiHexStore.mHexArray[y][x].setHexState(HexState.STATE_NEED_ELIMINATE);
+                    SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                    if (!singleHex.isHide()) {
+                        if (singleHex.hasColor()) {
+                            singleHex.setHexState(HexState.STATE_NEED_ELIMINATE);
                         }
                     }
                 }
@@ -475,8 +480,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (x < 0 || x >= mMultiHexStore.mCountX) {
                     continue;
                 }
-                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
-                    if (mMultiHexStore.mHexArray[y][x].hasColor()) {
+                SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                if (!singleHex.isHide()) {
+                    if (singleHex.hasColor()) {
                         showNumber++;
                     } else {
                         isFull = false;
@@ -492,10 +498,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     if (x < 0 || x >= mMultiHexStore.mCountX) {
                         continue;
                     }
-                    if (!mMultiHexStore.mHexArray[y][x].isGone()) {
-                        if (mMultiHexStore.mHexArray[y][x].hasColor()) {
-                            //                            mMultiHexStore.mHexArray[y][x].setState(SingleHex.STATE_NEED_ELIMINATE);
-                            mMultiHexStore.mHexArray[y][x].setHexState(HexState.STATE_NEED_ELIMINATE);
+                    SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                    if (!singleHex.isHide()) {
+                        if (singleHex.hasColor()) {
+                            singleHex.setHexState(HexState.STATE_NEED_ELIMINATE);
                         }
                     }
                 }
@@ -507,9 +513,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for (int y = 0; y < mMultiHexStore.mCountY; y++) {
             for (int x = 0; x < mMultiHexStore.mCountX; x++) {
                 SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
-                //                if (singleHex.getState() == SingleHex.STATE_NEED_ELIMINATE) {
-                //                    singleHex.resetColor(getContext().getApplicationContext());
-                //                }
                 if (singleHex.getHexState() == HexState.STATE_NEED_ELIMINATE) {
                     singleHex.resetColor(getContext().getApplicationContext());
                 }
@@ -544,14 +547,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //更新
         for (int y = 0; y < data.mCountY; y++) {
             for (int x = 0; x < data.mCountX; x++) {
-                if (!data.mHexArray[y][x].isGone() && !data.mHexArray[y][x].isInvisible()) {
+                SingleHex base = data.mHexArray[y][x];
+                if (!base.isHide()) {
                     SingleHex hexSingle = mMultiHexStore.mHexArray[y + indexY][x + indexX];
                     hexSingle.setColor(data.mColor);
                     if (isSave) {
-                        //                        hexSingle.setState(SingleHex.STATE_HAS_COLOR);
                         hexSingle.setHexState(HexState.STATE_HAS_COLOR);
                     } else {
-                        //                        hexSingle.setState(SingleHex.STATE_TEMP_COLOR);
                         hexSingle.setHexState(HexState.STATE_TEMP_COLOR);
                     }
                 }
@@ -565,13 +567,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private void clearTempColor() {
         for (int y = 0; y < mMultiHexStore.mCountY; y++) {
             for (int x = 0; x < mMultiHexStore.mCountX; x++) {
-                if (!mMultiHexStore.mHexArray[y][x].isGone()) {
-                    SingleHex hexSingle = mMultiHexStore.mHexArray[y][x];
-                    //                    if (hexSingle.getState() == SingleHex.STATE_TEMP_COLOR) {
-                    //                        hexSingle.resetColor(getContext().getApplicationContext());
-                    //                    }
-                    if (hexSingle.getHexState() == HexState.STATE_TEMP_COLOR) {
-                        hexSingle.resetColor(getContext().getApplicationContext());
+                SingleHex singleHex = mMultiHexStore.mHexArray[y][x];
+                if (!singleHex.isHide()) {
+                    if (singleHex.getHexState() == HexState.STATE_TEMP_COLOR) {
+                        singleHex.resetColor(getContext().getApplicationContext());
                     }
                 }
             }
@@ -658,16 +657,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         for (int y = 0; y < hexArray.length; y++) {
             for (int x = 0; x < hexArray[0].length; x++) {
-                if (!hexArray[y][x].isGone() && !hexArray[y][x].isInvisible()) {
+                SingleHex singleHex = hexArray[y][x];
+                if (!singleHex.isHide()) {
                     float centerX = (float) (xTopLeft + (x + 1) * rOut * Math.cos(Math.PI / 6.0F));
                     float centerY = yTopLeft + rOut + y * rOut * (1.5f + mDeltaY);
-                    paint.setColor(hexArray[y][x].getColor());
-                    //                    if (hexArray[y][x].getState() == SingleHex.STATE_TEMP_COLOR) {
-                    //                        paint.setAlpha(160);
-                    //                    } else {
-                    //                        paint.setAlpha(255);
-                    //                    }
-                    if (hexArray[y][x].getHexState() == HexState.STATE_TEMP_COLOR) {
+                    paint.setColor(singleHex.getColor());
+                    if (singleHex.getHexState() == HexState.STATE_TEMP_COLOR) {
                         paint.setAlpha(160);
                     } else {
                         paint.setAlpha(255);
@@ -737,12 +732,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         //刚好错位，不能放在此位置
         if (hexStore.mHexArray[placeY][placeX].isGone() != hexBase.mHexArray[0][0].isGone()) {
-            Log.d(TAG, "isCanBePlace: ");
             return false;
         }
         for (int y = 0; y < hexBase.mCountY; y++) {
             for (int x = 0; x < hexBase.mCountX; x++) {
-                if (!hexBase.mHexArray[y][x].isGone() && !hexBase.mHexArray[y][x].isInvisible()) {
+                SingleHex base = hexBase.mHexArray[y][x];
+                if (!base.isHide()) {
                     //左边、上边越界
                     if (placeY + y < 0 || placeX + x < 0) {
                         return false;
@@ -757,7 +752,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                         return false;
                     }
                     //此位置为显示Gone或者invisible
-                    if (singleHex.isGone() || singleHex.isInvisible()) {
+                    if (singleHex.isHide()) {
                         return false;
                     }
                 }

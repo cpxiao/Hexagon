@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <color name="hexColorDefault">#eeeeee</color>
+    <color name="hexColorDefault">#e0e0e0</color>
 
     <color name="color_settings_bg">#595d6c</color>
 
     <string-array name="app">
-        <item>#b3dd9c</item>
+        <item>#83e14f</item>
         <item>#ef79b1</item>
         <item>#7b80f8</item>
         <item>#c29df4</item>
-        <item>#59bbff</item>
+        <item>#41abf5</item>
         <item>#ffcc00</item>
         <item>#e98cf4</item>
         <item>#7ad8ef</item>
@@ -20,7 +20,7 @@
         <item>#46d5b8</item>
 
         <item>#ff89b5</item>
-        <item>#ffdc89</item>
+        <item>#ffd46f</item>
         <item>#f5a26f</item>
         <item>#898cff</item>
         <item>#71e096</item>
@@ -28,8 +28,8 @@
 
     </string-array>
 
-    <color name="color_score">#ff9f94</color>
-    <color name="color_best_score">#91cbec</color>
+    <color name="color_score">#f19287</color>
+    <color name="color_best_score">#39a3df</color>
 
 
     <color name="bgDefaultColor">#ffffff</color>
