@@ -1,17 +1,15 @@
 package com.cpxiao.gamelib.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.cpxiao.R;
 import com.cpxiao.AppConfig;
+import com.cpxiao.R;
+import com.cpxiao.gamelib.activity.core.BaseAppActivity;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
@@ -21,18 +19,19 @@ import com.facebook.ads.AdView;
 import com.google.android.gms.ads.AdRequest;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 
 /**
  * @author cpxiao on 2017/3/1.
- * @version 2017/3/17更新打印log信息
+ * @version cpxiao on 2017/3/17   更新打印log信息
+ *          cpxiao on 2017/8/24   提取test device
+ *          cpxiao on 2017/8/31   修改继承类
  */
-public class BaseActivity extends Activity {
+public abstract class BaseAdsActivity extends BaseAppActivity {
     protected static final boolean DEBUG = AppConfig.DEBUG;
-    protected final String TAG = "CPXIAO--" + getClass().getSimpleName();
+    protected final String TAG = getClass().getSimpleName();
+
+    protected final String TEST_DEVICE_FB = "3bcc341340550569d910c92a2dae2677";
+    protected final String TEST_DEVICE_ADMOB = "67F59060394DB36B95B18F5EE5B5D735";
 
     protected AdView mFbAdView;
     protected com.google.android.gms.ads.AdView mAdMobAdView;
@@ -41,12 +40,11 @@ public class BaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //no title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        //隐藏状态栏部分（电池电量、时间等部分）
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //        //no title
+        //        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //
+        //        //隐藏状态栏部分（电池电量、时间等部分）
+        //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
 
@@ -65,9 +63,6 @@ public class BaseActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (DEBUG) {
-            Log.d(TAG, "onDestroy: ");
-        }
         if (mFbAdView != null) {
             mFbAdView.destroy();
             mFbAdView = null;
@@ -80,7 +75,11 @@ public class BaseActivity extends Activity {
     }
 
     protected void initFbAds50(String placementId) {
-//        initFbAds(placementId, AdSize.BANNER_HEIGHT_50);
+        initFbAds(placementId, AdSize.BANNER_HEIGHT_50);
+    }
+
+    protected void initFbAds90(String placementId) {
+        initFbAds(placementId, AdSize.BANNER_HEIGHT_90);
     }
 
     protected void initFbAds250(String placementId) {
@@ -134,16 +133,13 @@ public class BaseActivity extends Activity {
 
         });
         if (DEBUG) {
-            //            AdSettings.addTestDevice("7d7fcc8ff3a053e48671f85990f1ab6d");//nexus 5
-            //            AdSettings.addTestDevice("55c4f301d7c1183f1fa6ede6b3f2fe2e");//坚果
-            //            AdSettings.addTestDevice("e6298923190b4e7e7119e0f14c44f097");//坚果
+            AdSettings.addTestDevice(TEST_DEVICE_FB);
 
-            // 如果想要添加多台测试设备，只需创建一个字符串列表，添加到加载广告前的位置：
-            List<String> testDevices = new ArrayList<>();
-            testDevices.add("7d7fcc8ff3a053e48671f85990f1ab6d");
-            testDevices.add("55c4f301d7c1183f1fa6ede6b3f2fe2e");
-            testDevices.add("e6298923190b4e7e7119e0f14c44f097");
-            AdSettings.addTestDevices(testDevices);
+            //            // 如果想要添加多台测试设备，只需创建一个字符串列表，添加到加载广告前的位置：
+            //            List<String> testDevices = new ArrayList<>();
+            //            testDevices.add("55c4f301d7c1183f1fa6ede6b3f2fe2e");
+            //            testDevices.add("e6298923190b4e7e7119e0f14c44f097");
+            //            AdSettings.addTestDevices(testDevices);
         }
         if (DEBUG) {
             Log.d(TAG, "initFbAds:  mFbAdView.loadAd();");
@@ -227,8 +223,7 @@ public class BaseActivity extends Activity {
         if (DEBUG) {
             adRequest = new AdRequest.Builder()
                     .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)// All emulators
-                    //                    .addTestDevice("E89B10531C8CCB95C447A97261F6AA0E")//坚果
-                    .addTestDevice("E1E0F81BBFC3DDCC151FE415046C6E40")//坚果
+                    .addTestDevice(TEST_DEVICE_ADMOB)//坚果
                     .build();
         } else {
             adRequest = new AdRequest.Builder()

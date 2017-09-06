@@ -9,9 +9,9 @@ android {
     defaultConfig {
         applicationId "com.cpxiao.hexagon"
         minSdkVersion 15 //使用freeline测试的时候最低14，之后改回对应版本9
-        targetSdkVersion 23
-        versionCode 263
-        versionName "2.6.3"
+        targetSdkVersion 25
+        versionCode 264
+        versionName "2.6.4"
     }
     buildTypes {
         release {
@@ -80,7 +80,8 @@ dependencies {
 //    compile 'com.google.firebase:firebase-ads:9.4.0'
     compile 'com.google.firebase:firebase-ads:11.0.0'
     //ZAds SDK
-    compile 'com.github.bumptech.glide:glide:3.7.0'//要放在后面
+//    compile 'com.github.bumptech.glide:glide:3.7.0'//要放在前面几个库的后面
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     /**
      * Ads End
      */

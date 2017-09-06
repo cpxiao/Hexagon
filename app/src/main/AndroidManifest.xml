@@ -24,7 +24,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <activity
-            android:name=".hexagon.activity.HomeActivity"
+            android:name=".hexagon.activity.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -33,15 +33,15 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".hexagon.activity.GameActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <!--<activity-->
+            <!--android:name=".hexagon.activity.GameActivity"-->
+            <!--android:screenOrientation="portrait">-->
+        <!--</activity>-->
 
-        <activity
-            android:name=".hexagon.activity.SettingsActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <!--<activity-->
+            <!--android:name=".hexagon.activity.SettingsActivity"-->
+            <!--android:screenOrientation="portrait">-->
+        <!--</activity>-->
 
         <meta-data
             android:name="UMENG_APPKEY"
