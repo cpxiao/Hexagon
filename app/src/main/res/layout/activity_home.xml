@@ -19,59 +19,108 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
             android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/app_title"/>
 
-        <Button
-            android:id="@+id/btn_r5"
-            style="@style/HomeBtn"
+        <LinearLayout
+            style="@style/HomeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_r5"/>
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_r6"
-            style="@style/HomeBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_r6"/>
+            <Button
+                android:id="@+id/btn_r5"
+                style="@style/HomeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_r5"/>
 
-        <Button
-            android:id="@+id/btn_r7"
-            style="@style/HomeBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_r7"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_r8"
-            style="@style/HomeBtn"
+        <LinearLayout
+            style="@style/HomeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_r8"/>
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_best_score"
-            style="@style/HomeBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/best_score"/>
+            <Button
+                android:id="@+id/btn_r6"
+                style="@style/HomeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_r6"/>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_settings"
-            style="@style/HomeBtn"
+        <LinearLayout
+            style="@style/HomeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings"/>
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_quit"
-            style="@style/HomeBtn"
+            <Button
+                android:id="@+id/btn_r7"
+                style="@style/HomeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_r7"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HomeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_r8"
+                style="@style/HomeBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_r8"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HomeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/quit"/>
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_rate_app"
+                style="@style/HomeBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/rate_app"
+                android:src="@drawable/ic_rate"/>
+
+            <ImageButton
+                android:id="@+id/btn_share"
+                style="@style/HomeBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/share"
+                android:src="@drawable/ic_share"/>
+
+            <ImageButton
+                android:id="@+id/btn_best_score"
+                style="@style/HomeBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/best_score"
+                android:src="@drawable/ic_best"/>
+
+            <ImageButton
+                android:id="@+id/btn_settings"
+                style="@style/HomeBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:contentDescription="@string/settings"
+                android:src="@drawable/ic_settings"/>
+
+
+        </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/layout_ads"/>
 </RelativeLayout>

@@ -6,6 +6,8 @@
     <string name="btn_r6">中等 (R6)</string>
     <string name="btn_r7">困难 (R7)</string>
     <string name="btn_r8">疯狂 (R8)</string>
+    <string name="rate_app">五星好评</string>
+    <string name="share">分享</string>
     <string name="best_score">最高分</string>
     <string name="settings">设置</string>
     <string name="quit">退出</string>
@@ -23,4 +25,5 @@
     <string name="settings_off">关</string>
 
     <string name="quit_msg">退出游戏 ?</string>
+    <string name="share_msg">"分享一个游戏给你."</string>
 </resources>

@@ -129,13 +129,6 @@ public class GameFragment extends BaseZAdsFragment implements OnGameListener {
         MediaPlayerUtils.getInstance().stop();
     }
 
-    //    public static Intent makeIntent(Context context, int gameType) {
-    //        Intent intent = new Intent(context, GameActivity.class);
-    //        intent.putExtra(Extra.Name.GAME_MODE, gameType);
-    //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-    //        return intent;
-    //    }
-
     public static Bundle makeBundle(Context context, int gameType) {
         Bundle bundle = new Bundle();
         bundle.putInt(Extra.Name.GAME_MODE, gameType);
@@ -169,7 +162,6 @@ public class GameFragment extends BaseZAdsFragment implements OnGameListener {
                 .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //                        finish();
                         dialog.dismiss();
                         removeFragment();
                     }
